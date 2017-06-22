@@ -1,0 +1,58 @@
+sstLdFlags = [
+'@LDFLAGS@',
+'-L@libdir@',
+]
+
+clangCppFlagsStr="@CLANG_CPPFLAGS@"
+clangLdFlagsStr="@CLANG_LDFLAGS@"
+clangLibtoolingCxxFlagsStr="@CLANG_LIBTOOLING_CXX_FLAGS@"
+clangLibtoolingCFlagsStr="@CLANG_LIBTOOLING_C_FLAGS@"
+
+sstCppFlags = [
+"@BOOST_CPPFLAGS@",
+"@SST_CPPFLAGS@",
+"@CPPFLAGS@",
+"-I${includedir}/sstmac",
+"-I${includedir}",
+"-I${includedir}/sstmac/software/libraries",
+"-I${includedir}/sstmac/tools",
+"-I${includedir}/sumi",
+"-DSSTMAC=1",
+"-I${includedir}/sstmac/replacements",
+]
+
+sstCore=bool("@SST_CPPFLAGS@")
+soFlagsStr="@LD_SO_FLAGS@"
+
+prefix="@prefix@"
+execPrefix="@exec_prefix@"
+includeDir="@includedir@"
+sstCxxFlagsStr="@CXXFLAGS@ @SST_CXXFLAGS@"
+sstCFlagsStr="@CFLAGS@"
+cc="@CC@"
+cxx="@CXX@"
+
+
+# Configure the PYTHONPATH
+def setPythonPath():
+  relpath = inspect.getfile(inspect.currentframe()) # script filename (usually with path)
+  abspath = os.path.abspath(relpath)
+  my_folder = os.path.dirname(abspath)
+
+  my_sstmac_include_dir = None
+
+  my_src_folder = os.path.join(my_folder, "pysst")
+  if (os.path.isdir(my_src_folder)):
+      my_sstmac_include_dir = os.path.join(*os.path.split(my_folder)[:-1])
+      sys.path.append(my_folder)
+
+  my_inc_folder = os.path.join(*os.path.split(my_folder)[:-1])
+  my_inc_folder = os.path.join(my_inc_folder, "include", "sstmac")
+  if (os.path.isdir(my_inc_folder)):
+      sys.path.append(my_inc_folder)
+      if not my_sstmac_include_dir:
+          my_sstmac_include_dir = os.path.join(my_inc_folder, "include")
+
+
+
+

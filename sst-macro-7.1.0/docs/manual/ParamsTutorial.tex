@@ -1,0 +1,172 @@
+%% !TEX root = manual.tex
+
+\section{SST/macro Parameter files}
+\label{sec:parameters}
+A minimal parameter file setting up a 2D-torus topology is shown below. 
+A detailed listing of parameter namespaces and keywords is given in Section \ref{chapter:parameters}.
+The preferred input files now use namespaces.
+However, for consistency with previous versions, we also show the deprecated parameters.
+
+\begin{ViFile}
+amm_model = amm1
+congestion_model = simple
+node {
+ #run a single mpi test
+ app1 {
+  indexing = block
+  allocation = first_available
+  launch_cmd = aprun -n8 -N1
+  name = sstmac_mpi_testall
+  argv =
+  sendrecv_message_size = 128
+ }
+ ncores = 1
+ model = simple
+ memory {
+  model = simple
+  bandwidth = 1GB/s
+  latency = 10ns
+ }
+ proc {
+  frequency = 1GHz
+ }
+ nic {
+  injection {
+   bandwidth = 1GB/s
+   latency = 1us
+  }
+  model = simple
+ }
+}
+switch {
+ ejection {
+  bandwidth = 1GB/s
+  latency = 100ns
+ }
+ link {
+  bandwidth = 1.0GB/s
+   latency = 100ns
+ }
+}
+
+topology {
+ name = torus
+ geometry = 4,4
+}
+\end{ViFile}
+The input file follows a basic syntax of \inlinefile{parameter = value}.  
+Parameter names follow C++ variable rules (letters, numbers, underscore) while parameter values can contain spaces.  Trailing and leading whitespaces are stripped from parameters.
+Comments can be included on lines starting with \#.
+
+\subsection{Parameter Namespace Rules}
+\label{subsec:parameterNamespace}
+Periods denote nesting of parameter namespaces.
+The parameter \inlineshell{node.memory.model} will be nested in namespace \inlineshell{memory} inside namespace \inlineshell{node}.
+If inside a given namespace, \sstmacro looks within that namespace first.
+If unable to find it, the input parser moves through the namespace nesting to find the value.
+This exactly follows C++ namespace rules with one important exception. 
+The ``global'' namespace is reserved for special keywords that get translated.
+Keywords in the global namespace are not visible to any components.
+
+
+For example, consider the following:
+\begin{ViFile}
+node.model = simple
+node.memory.model = pisces
+\end{ViFile}
+If I am building the node's memory system, the initialization will look for \inlineshell{memory::model} inside namespace \inlineshell{node} first, returning the value \inlineshell{pisces}. 
+
+The preferred syntax from 6.1 more closely resembles C++ namespace declarations. 
+Namespaces can be scoped using brackets \{\}:
+
+\begin{ViFile}
+node {
+ model = simple
+ memory {
+   model = simple
+   bandwidth = 1GB/s
+   latency = 10ns
+ }
+}
+\end{ViFile}
+Any line containing a single string with an opening \{ starts a new namespace.
+A line containing only a closing \} ends the innermost namespace.
+The syntax is not as flexible as C++ since the opening \{ must appear on the same line as the namespace and the closing \} must be on a line of its own.
+A detailed listing of parameter namespaces and keywords is given in Section \ref{chapter:parameters}.
+
+\subsection{Initial Example}
+\label{subsec:initialExample}
+Continuing with the example above, we see the input file is broken into namespace sections. 
+First, application launch parameters for each node must be chosen determining what application will launch, 
+how nodes will be allocated, how ranks will be indexed, and finally what application will be run.  
+Additionally, you must specify how many processes to launch and how many to spawn per node.  
+We currently recommend using aprun syntax (the launcher for Cray machines), 
+although support is being added for other process management systems.
+\sstmacro can simulate command line parameters by giving a value for \inlinefile{app1.argv}.
+
+A network must also be chosen.  
+In the simplest possible case, the network is modeled via a simple latency/bandwidth formula.  
+For more complicated network models, many more than two parameters will be required. 
+See \ref{sec:tutorial:networkmodel} for a brief explanation of \sstmacro network congestion models. 
+A topology is also needed for constructing the network.  
+In this case we choose a 2-D 4$\times$4 torus (16 switches).  The \inlinefile{topology_geometry} 
+parameter takes an arbitrarily long list of numbers as the dimensions to the torus.
+
+Finally, we must construct a node model.  
+In this case, again, we use the simplest possible models (null model) for the node, 
+network interface controller (NIC), and memory.  
+The null model is essentially a no-op, generating the correct control flow but not actually simulating any computation. 
+This is useful for validating program correctness or examining questions only related to the network.  
+More accurate (and complicated) models will require parameters for node frequency, memory bandwidth, injection latency, etc.
+
+Parameter files can be constructed in a more modular way through the \inlinefile{include} statement.  
+An alternative parameter file would be:
+
+\begin{ViFile}
+include machine.ini
+# Launch parameters
+node {
+ app1 {
+  indexing = block
+  allocation = first_available
+  launch_cmd = aprun -n2 -N1
+  name = user_mpiapp_cxx
+  argv = 
+  # Application parameters
+  sendrecv_message_size = 128
+ }
+}
+
+\end{ViFile}
+where in the first line we include the file \inlinefile{machine.ini}.  
+All network, topology, and node parameters would be placed into a \inlinefile{machine.ini} file.  
+In this way, multiple experiments can be linked to a common machine.  
+Alternatively, multiple machines could be linked to the same application by creating and including an \inlinefile{application.ini}.
+
+Using the deprecated (non-namespace) parameters the file would be:
+
+\begin{ViFile}
+# Launch parameters
+launch_indexing = block
+launch_allocation = first_available
+launch_app1_cmd = aprun -n2 -N1
+launch_app1 = user_mpiapp_cxx
+launch_app1_argv = 
+# Network parameters
+network_name = simple
+network_bandwidth = 1.0GB/s
+network_hop_latency = 100ns
+# Topology - Ring of 4 nodes
+topology_name = torus
+topology_geometry = 4,4
+# Node parameters
+node_cores = 1
+node_name = null
+node_memory_model = null
+nic_name = null
+# Application parameters
+sendrecv_message_size = 128
+\end{ViFile}
+
+All of these are special keywords in the global namespace that get expanded into parameters in a specific namespace.
+

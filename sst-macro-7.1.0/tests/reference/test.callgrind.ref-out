@@ -1,0 +1,68 @@
+events: Instructions
+
+fn=main
+0 0
+cfn=Sleep
+calls=0 0
+0 400000000000000
+cfn=MPI_Init
+calls=80 0
+0 71960000
+cfn=MPI_Finalize
+calls=0 0
+0 8559284000
+cfn=MPI_Isend
+calls=0 0
+0 37920000
+cfn=MPI_Waitall
+calls=0 0
+0 15786996000
+
+fn=Compute Instructions
+0 37920000
+
+fn=memcopy
+0 0
+cfn=Compute Instructions
+calls=6320 0
+0 37920000
+
+fn=Sleep
+0 400000000000000
+
+fn=MPI Queue Poll
+0 15786996000
+
+fn=MPI Eager 1 Protocol: Send RDMA Header
+0 0
+cfn=memcopy
+calls=6320 0
+0 37920000
+
+fn=MPI_Init
+0 0
+cfn=MPI_Barrier
+calls=80 0
+0 71960000
+
+fn=MPI_Finalize
+0 0
+cfn=MPI_Barrier
+calls=80 0
+0 8559284000
+
+fn=MPI_Barrier
+0 8631244000
+
+fn=MPI_Isend
+0 0
+cfn=MPI Eager 1 Protocol: Send RDMA Header
+calls=6320 0
+0 37920000
+
+fn=MPI_Waitall
+0 0
+cfn=MPI Queue Poll
+calls=80 0
+0 15786996000
+
