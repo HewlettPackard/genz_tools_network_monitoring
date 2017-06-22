@@ -1,0 +1,6 @@
+<map id="router" name="router">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1fat__tree__router.html" title="The fat_tree_router class Router encapsulating the special routing computations that must occur on a ..." alt="" coords="5,80,148,121"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1minimal__router.html" title="The minimal_router class Router that performs. " alt="" coords="172,80,315,121"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1valiant__router.html" title="The valiant_router class Enacpsulates a router that performs oblivious, global routing according to &quot;..." alt="" coords="175,169,311,211"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1hw_1_1ugal__router.html" title="The ugal_router class Encapsulates a router that performs Univeral Globally Adaptive Load&#45;balanced ro..." alt="" coords="162,259,325,285"/>
+</map>

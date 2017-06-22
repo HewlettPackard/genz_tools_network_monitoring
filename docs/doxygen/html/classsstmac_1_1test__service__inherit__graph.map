@@ -1,0 +1,7 @@
+<map id="sstmac::test_service" name="sstmac::test_service">
+<area shape="rect" id="node2" href="$classsstmac_1_1distributed__service.html" title="sstmac::distributed\l_service" alt="" coords="159,244,292,285"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1sumi__transport.html" title="sstmac::sumi_transport" alt="" coords="146,169,305,196"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1sw_1_1api.html" title="sstmac::sw::api" alt="" coords="15,87,129,114"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1sw_1_1library.html" title="sstmac::sw::library" alt="" coords="5,5,139,32"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1sw_1_1process__manager.html" title="sstmac::sw::process\l_manager" alt="" coords="153,80,297,121"/>
+</map>

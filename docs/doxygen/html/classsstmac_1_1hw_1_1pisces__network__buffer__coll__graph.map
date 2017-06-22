@@ -1,0 +1,12 @@
+<map id="sstmac::hw::pisces_network_buffer" name="sstmac::hw::pisces_network_buffer">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1pisces__buffer.html" title="sstmac::hw::pisces\l_buffer" alt="" coords="1009,154,1145,195"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1pisces__sender.html" title="sstmac::hw::pisces\l_sender" alt="" coords="824,75,960,117"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="443,5,640,32"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="180,73,348,100"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="5,95,131,121"/>
+<area shape="rect" id="node11" href="$classsstmac_1_1event__handler.html" title="sstmac::event_handler" alt="" coords="187,173,341,200"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1packet__stats__callback.html" title="The packet_stats_callback class is an optional callback that can be registered with pisces_sender obj..." alt="" coords="473,57,610,98"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1timestamp.html" title="sstmac::timestamp" alt="" coords="474,123,609,149"/>
+<area shape="rect" id="node10" href="$structsstmac_1_1hw_1_1pisces__output.html" title="sstmac::hw::pisces\l_output" alt="" coords="664,217,800,258"/>
+<area shape="rect" id="node12" href="$structsstmac_1_1hw_1_1pisces__input.html" title="sstmac::hw::pisces\l_input" alt="" coords="664,167,800,209"/>
+</map>

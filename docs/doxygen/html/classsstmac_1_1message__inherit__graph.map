@@ -1,0 +1,12 @@
+<map id="sstmac::message" name="sstmac::message">
+<area shape="rect" id="node6" href="$classsstmac_1_1hw_1_1memory__message.html" title="sstmac::hw::memory\l_message" alt="" coords="613,5,759,47"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1hw_1_1network__message.html" title="sstmac::hw::network\l_message" alt="" coords="614,71,758,112"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1flow.html" title="sstmac::flow" alt="" coords="293,46,391,73"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1event.html" title="sstmac::event" alt="" coords="140,21,245,47"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1simple__network__message.html" title="The simple_network_message class MTL message (flow) that carries a request directly between nodes via..." alt="" coords="831,5,967,47"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1sw_1_1launch__event.html" title="sstmac::sw::launch\l_event" alt="" coords="831,71,967,112"/>
+<area shape="rect" id="node13" href="$classsstmac_1_1transport__message.html" title="sstmac::transport_message" alt="" coords="807,137,991,163"/>
+<area shape="rect" id="node10" href="$classsstmac_1_1sw_1_1arrive__message.html" title="sstmac::sw::arrive\l_message" alt="" coords="1049,5,1180,47"/>
+<area shape="rect" id="node11" href="$classsstmac_1_1sw_1_1job__stop__event.html" title="sstmac::sw::job_stop\l_event" alt="" coords="1041,71,1188,112"/>
+<area shape="rect" id="node12" href="$classsstmac_1_1sw_1_1start__app__event.html" title="sstmac::sw::start_app\l_event" alt="" coords="1039,136,1191,177"/>
+</map>

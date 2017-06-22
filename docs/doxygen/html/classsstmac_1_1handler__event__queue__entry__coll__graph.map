@@ -1,0 +1,8 @@
+<map id="sstmac::handler_event_queue_entry" name="sstmac::handler_event_queue_entry">
+<area shape="rect" id="node2" href="$classsstmac_1_1event__queue__entry.html" title="sstmac::event_queue\l_entry" alt="" coords="171,185,318,227"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1event.html" title="sstmac::event" alt="" coords="5,81,111,108"/>
+<area shape="rect" id="node5" href="$structsstmac_1_1device__id.html" title="sstmac::device_id" alt="" coords="135,81,263,108"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1timestamp.html" title="sstmac::timestamp" alt="" coords="288,81,423,108"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1event__handler.html" title="sstmac::event_handler" alt="" coords="433,193,587,219"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="447,81,573,108"/>
+</map>

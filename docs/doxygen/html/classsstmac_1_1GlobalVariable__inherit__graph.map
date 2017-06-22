@@ -1,0 +1,4 @@
+<map id="sstmac::GlobalVariable" name="sstmac::GlobalVariable">
+<area shape="rect" id="node2" href="$structsstmac_1_1sw_1_1global_3_01T_01_5_00_01void_01_4.html" title="sstmac::sw::global\l\&lt; T *, void \&gt;" alt="" coords="232,5,364,47"/>
+<area shape="rect" id="node3" href="$structsstmac_1_1sw_1_1global_3_01T_00_01typename_01std_1_1enable__if_3_01std_1_1is__arithmetic_39ef6408a8805e141ce7849d85648edb1.html" title="sstmac::sw::global\l\&lt; T, typename std::enable\l_if\&lt; std::is_arithmetic\l\&lt; T \&gt;::value \&gt;::type \&gt;" alt="" coords="211,71,385,141"/>
+</map>

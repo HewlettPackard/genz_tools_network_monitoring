@@ -1,0 +1,10 @@
+<map id="sumi::parsedumpi" name="sumi::parsedumpi">
+<area shape="rect" id="node2" href="$classsstmac_1_1sw_1_1app.html" title="sstmac::sw::app" alt="" coords="27,241,146,267"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1sw_1_1thread.html" title="sstmac::sw::thread" alt="" coords="185,337,319,364"/>
+<area shape="rect" id="node4" href="$structsstmac_1_1sw_1_1software__id.html" title="sstmac::sw::software_id" alt="" coords="169,241,335,267"/>
+<area shape="rect" id="node5" href="$structsstmac_1_1sw_1_1process__context.html" title="sstmac::sw::process\l_context" alt="" coords="359,233,503,275"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1sw_1_1operating__system.html" title="sstmac::sw::operating\l_system" alt="" coords="527,233,678,275"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="504,157,701,184"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="519,81,687,108"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="479,5,604,32"/>
+</map>

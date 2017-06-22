@@ -1,0 +1,7 @@
+<map id="sstmac::hw::pisces_network_buffer" name="sstmac::hw::pisces_network_buffer">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1pisces__buffer.html" title="sstmac::hw::pisces\l_buffer" alt="" coords="61,319,197,360"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1pisces__sender.html" title="sstmac::hw::pisces\l_sender" alt="" coords="61,229,197,271"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="31,155,228,181"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="45,80,213,107"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="5,5,131,32"/>
+</map>

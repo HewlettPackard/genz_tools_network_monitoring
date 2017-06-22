@@ -1,0 +1,18 @@
+
+
+Characterizing parallel scientific applications on commodity clusters: an empirical study of a tapered fat-tree
+http://dl.acm.org/citation.cfm?id=3015009
+(attached)
+ 
+Exploiting Variability for Energy Optimization of Parallel Programs https://crd.lbl.gov/assets/Uploads/iancu-eurosys16.pdf
+ 
+Evaluating HPC Networks via Simulation of Parallel Workloads: http://charm.cs.illinois.edu/newPapers/16-11/network_comparison_tracer.pdf
+ 
+Partitioning Low-diameter Networks to Eliminate Inter-job Interference: http://charm.cs.illinois.edu/~bhatele/pubs/pdf/2017/ipdps2017.pdf
+ 
+HyperX: Topology, Routing, and Packaging of Efficient Large-Scale Networks: https://pdfs.semanticscholar.org/c8b2/2edfb9e580eb29688b4d0e100d621f4d2900.pdf
+ 
+SST simulator: http://sst-simulator.org/
+ 
+Cycle accurate n/w simulator SuperSim: https://github.com/HewlettPackard/supersim
+ 

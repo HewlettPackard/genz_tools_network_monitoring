@@ -1,0 +1,6 @@
+<map id="sstmac::hw::tiled_torus" name="sstmac::hw::tiled_torus">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1hdtorus.html" title="sstmac::hw::hdtorus" alt="" coords="13,266,154,293"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1cartesian__topology.html" title="The cartesian_topology class Encapsulates a topology like torus that can be naturally mapped onto an ..." alt="" coords="8,169,159,211"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1structured__topology.html" title="sstmac::hw::structured\l_topology" alt="" coords="5,80,161,121"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1hw_1_1multipath__topology.html" title="sstmac::hw::multipath\l_topology" alt="" coords="179,259,329,300"/>
+</map>

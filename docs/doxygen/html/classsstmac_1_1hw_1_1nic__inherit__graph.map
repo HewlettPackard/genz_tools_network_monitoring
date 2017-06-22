@@ -1,0 +1,10 @@
+<map id="sstmac::hw::nic" name="sstmac::hw::nic">
+<area shape="rect" id="node9" href="$classsstmac_1_1hw_1_1logp__nic.html" title="Implements a NIC that does very basic congestion modeling using the LogGP model. See &quot;LogGP in Theory..." alt="" coords="5,393,152,420"/>
+<area shape="rect" id="node10" href="$classsstmac_1_1hw_1_1pisces__nic.html" title="sstmac::hw::pisces_nic" alt="" coords="176,393,336,420"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1failable.html" title="sstmac::hw::failable" alt="" coords="9,237,148,263"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1connectable__subcomponent.html" title="sstmac::hw::connectable\l_subcomponent" alt="" coords="172,229,340,271"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="55,155,252,181"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="69,80,237,107"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="29,5,155,32"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1connectable.html" title="sstmac::hw::connectable" alt="" coords="276,155,444,181"/>
+</map>

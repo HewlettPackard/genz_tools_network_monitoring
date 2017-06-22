@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classsstmac_1_1partition.html" title="sstmac::partition" alt="" coords="5,89,124,115"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1block__partition.html" title="sstmac::block_partition" alt="" coords="181,13,338,39"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1metis__partition.html" title="sstmac::metis_partition" alt="" coords="180,63,339,90"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1serial__partition.html" title="sstmac::serial_partition" alt="" coords="181,114,338,141"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1topology__partition.html" title="sstmac::topology_partition" alt="" coords="172,165,347,191"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1occupied__block__partition.html" title="sstmac::occupied_block\l_partition" alt="" coords="395,5,557,47"/>
+</map>

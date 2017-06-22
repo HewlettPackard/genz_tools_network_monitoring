@@ -1,0 +1,11 @@
+<map id="sstmac::sw::api" name="sstmac::sw::api">
+<area shape="rect" id="node2" href="$classsstmac_1_1sw_1_1library.html" title="sstmac::sw::library" alt="" coords="948,68,1081,95"/>
+<area shape="rect" id="node3" href="$structsstmac_1_1sw_1_1software__id.html" title="sstmac::sw::software_id" alt="" coords="644,5,809,32"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1sw_1_1key__traits_1_1category.html" title="sstmac::sw::key_traits\l::category" alt="" coords="649,57,804,98"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1sw_1_1operating__system.html" title="sstmac::sw::operating\l_system" alt="" coords="651,122,802,163"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="397,129,595,156"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="180,129,348,156"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="5,104,131,131"/>
+<area shape="rect" id="node10" href="$classsstmac_1_1sw_1_1Timer.html" title="sstmac::sw::Timer" alt="" coords="949,121,1080,148"/>
+<area shape="rect" id="node11" href="$classsstmac_1_1sw_1_1lib__compute__time.html" title="sstmac::sw::lib_compute_time" alt="" coords="915,177,1115,204"/>
+</map>

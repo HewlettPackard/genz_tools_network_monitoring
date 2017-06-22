@@ -1,0 +1,9 @@
+<map id="sstmac::hw::pisces_nic" name="sstmac::hw::pisces_nic">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1nic.html" title="sstmac::hw::nic" alt="" coords="105,319,220,345"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1failable.html" title="sstmac::hw::failable" alt="" coords="5,237,144,263"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1connectable__subcomponent.html" title="sstmac::hw::connectable\l_subcomponent" alt="" coords="168,229,336,271"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1event__subcomponent.html" title="sstmac::event_subcomponent" alt="" coords="51,155,248,181"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="65,80,233,107"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="25,5,151,32"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1hw_1_1connectable.html" title="sstmac::hw::connectable" alt="" coords="272,155,440,181"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="sstmac::hw::node" name="sstmac::hw::node">
+<area shape="rect" id="node9" href="$classsstmac_1_1hw_1_1simple__node.html" title="sstmac::hw::simple_node" alt="" coords="77,393,248,420"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1failable.html" title="sstmac::hw::failable" alt="" coords="5,237,144,263"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1connectable__component.html" title="sstmac::hw::connectable\l_component" alt="" coords="168,229,336,271"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1event__component.html" title="sstmac::event_component" alt="" coords="67,155,243,181"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="71,80,239,107"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="31,5,156,32"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1connectable.html" title="sstmac::hw::connectable" alt="" coords="267,155,435,181"/>
+</map>

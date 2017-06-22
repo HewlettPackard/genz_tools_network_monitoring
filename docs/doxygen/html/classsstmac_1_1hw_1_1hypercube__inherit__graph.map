@@ -1,0 +1,5 @@
+<map id="sstmac::hw::hypercube" name="sstmac::hw::hypercube">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1hdtorus.html" title="sstmac::hw::hdtorus" alt="" coords="14,259,155,285"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1cartesian__topology.html" title="The cartesian_topology class Encapsulates a topology like torus that can be naturally mapped onto an ..." alt="" coords="9,169,160,211"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1structured__topology.html" title="sstmac::hw::structured\l_topology" alt="" coords="7,80,163,121"/>
+</map>

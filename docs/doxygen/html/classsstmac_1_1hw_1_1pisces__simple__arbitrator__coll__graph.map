@@ -1,0 +1,4 @@
+<map id="sstmac::hw::pisces_simple_arbitrator" name="sstmac::hw::pisces_simple_arbitrator">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1pisces__bandwidth__arbitrator.html" title="The pisces_bandwidth_arbitrator class This arbitrates the available bandwidth amongst incoming packet..." alt="" coords="5,5,152,47"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1timestamp.html" title="sstmac::timestamp" alt="" coords="177,13,311,39"/>
+</map>

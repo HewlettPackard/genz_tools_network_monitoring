@@ -1,0 +1,9 @@
+<map id="sstmac::sw::node_allocator" name="sstmac::sw::node_allocator">
+<area shape="rect" id="node3" href="$classsstmac_1_1sw_1_1cart__allocation.html" title="sstmac::sw::cart_allocation" alt="" coords="361,5,543,32"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1sw_1_1coordinate__allocation.html" title="sstmac::sw::coordinate\l_allocation" alt="" coords="373,57,531,98"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1sw_1_1dumpi__allocation.html" title="sstmac::sw::dumpi_allocation" alt="" coords="355,123,549,149"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1sw_1_1first__available__allocation.html" title="sstmac::sw::first_available\l_allocation" alt="" coords="363,174,541,215"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1sw_1_1hostname__allocation.html" title="sstmac::sw::hostname\l_allocation" alt="" coords="375,239,529,281"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1sw_1_1node__id__allocation.html" title="sstmac::sw::node_id\l_allocation" alt="" coords="381,305,523,346"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1sw_1_1random__allocation.html" title="sstmac::sw::random\l_allocation" alt="" coords="381,370,523,411"/>
+</map>

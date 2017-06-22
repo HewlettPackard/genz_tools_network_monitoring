@@ -1,0 +1,5 @@
+<map id="sstmac::partition" name="sstmac::partition">
+<area shape="rect" id="node2" href="$classsstmac_1_1parallel__runtime.html" title="sstmac::parallel_runtime" alt="" coords="101,109,265,136"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1lockable.html" title="sstmac::lockable" alt="" coords="148,13,269,39"/>
+<area shape="rect" id="node4" href="$structsstmac_1_1parallel__runtime_1_1comm__buffer.html" title="sstmac::parallel_runtime\l::comm_buffer" alt="" coords="293,5,457,47"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="sstmac::hw::failable" name="sstmac::hw::failable">
+<area shape="rect" id="node2" href="$classsstmac_1_1hw_1_1nic.html" title="sstmac::hw::nic" alt="" coords="199,80,313,107"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1hw_1_1node.html" title="sstmac::hw::node" alt="" coords="359,80,486,107"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1logp__nic.html" title="Implements a NIC that does very basic congestion modeling using the LogGP model. See &quot;LogGP in Theory..." alt="" coords="5,155,152,181"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1pisces__nic.html" title="sstmac::hw::pisces_nic" alt="" coords="176,155,336,181"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1hw_1_1simple__node.html" title="sstmac::hw::simple_node" alt="" coords="360,155,531,181"/>
+</map>

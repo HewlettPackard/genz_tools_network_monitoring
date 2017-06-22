@@ -1,0 +1,14 @@
+<map id="sstmac::hw::structured_topology" name="sstmac::hw::structured_topology">
+<area shape="rect" id="node3" href="$classsstmac_1_1hw_1_1abstract__butterfly.html" title="The abstract_butterfly class Encapsulates operations common to both butterfly and flattened_butterfly..." alt="" coords="345,17,490,58"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1hw_1_1abstract__fat__tree.html" title="sstmac::hw::abstract\l_fat_tree" alt="" coords="345,101,490,142"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1cartesian__topology.html" title="The cartesian_topology class Encapsulates a topology like torus that can be naturally mapped onto an ..." alt="" coords="342,166,493,207"/>
+<area shape="rect" id="node13" href="$classsstmac_1_1hw_1_1crossbar.html" title="sstmac::hw::crossbar" alt="" coords="343,232,491,259"/>
+<area shape="rect" id="node14" href="$classsstmac_1_1hw_1_1fake__topology.html" title="sstmac::hw::fake_topology" alt="" coords="328,283,507,309"/>
+<area shape="rect" id="node4" href="$classsstmac_1_1hw_1_1butterfly.html" title="The butterfly class Encapsulates a butterfly topology as described in &quot;High Performance Datacenter Ne..." alt="" coords="557,5,703,32"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1hw_1_1fat__tree.html" title="sstmac::hw::fat_tree" alt="" coords="559,56,701,83"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1hw_1_1tapered__fat__tree.html" title="sstmac::hw::tapered\l_fat_tree" alt="" coords="559,107,701,149"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1hw_1_1dragonfly.html" title="sstmac::hw::dragonfly" alt="" coords="555,173,705,200"/>
+<area shape="rect" id="node10" href="$classsstmac_1_1hw_1_1hdtorus.html" title="sstmac::hw::hdtorus" alt="" coords="559,224,701,251"/>
+<area shape="rect" id="node11" href="$classsstmac_1_1hw_1_1hypercube.html" title="sstmac::hw::hypercube" alt="" coords="753,199,912,225"/>
+<area shape="rect" id="node12" href="$classsstmac_1_1hw_1_1tiled__torus.html" title="sstmac::hw::tiled_torus" alt="" coords="753,249,912,276"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="sstmac::stat_value_base" name="sstmac::stat_value_base">
+<area shape="rect" id="node4" href="$classsstmac_1_1stat__value.html" title="sstmac::stat_value\&lt; T \&gt;" alt="" coords="5,237,171,263"/>
+<area shape="rect" id="node5" href="$classsstmac_1_1stat__value.html" title="sstmac::stat_value\l\&lt; double \&gt;" alt="" coords="195,229,328,271"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1stat__value.html" title="sstmac::stat_value\l\&lt; int \&gt;" alt="" coords="357,229,491,271"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1stat__collector.html" title="sstmac::stat_collector" alt="" coords="186,80,337,107"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1stat__local__double.html" title="sstmac::stat_local\l_double" alt="" coords="191,319,321,360"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1stat__global__int.html" title="sstmac::stat_global_int" alt="" coords="345,326,503,353"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1stat__local__int.html" title="sstmac::stat_local_int" alt="" coords="527,326,678,353"/>
+</map>

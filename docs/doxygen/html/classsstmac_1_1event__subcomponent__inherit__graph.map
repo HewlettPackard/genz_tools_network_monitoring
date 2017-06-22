@@ -1,0 +1,20 @@
+<map id="sstmac::event_subcomponent" name="sstmac::event_subcomponent">
+<area shape="rect" id="node5" href="$classsstmac_1_1hw_1_1connectable__subcomponent.html" title="sstmac::hw::connectable\l_subcomponent" alt="" coords="640,50,808,91"/>
+<area shape="rect" id="node9" href="$classsstmac_1_1hw_1_1netlink.html" title="sstmac::hw::netlink" alt="" coords="656,117,792,144"/>
+<area shape="rect" id="node11" href="$classsstmac_1_1hw_1_1pisces__sender.html" title="sstmac::hw::pisces\l_sender" alt="" coords="656,171,792,213"/>
+<area shape="rect" id="node20" href="$classsstmac_1_1sw_1_1operating__system.html" title="sstmac::sw::operating\l_system" alt="" coords="649,237,799,278"/>
+<area shape="rect" id="node2" href="$classsstmac_1_1event__scheduler.html" title="sstmac::event_scheduler" alt="" coords="179,149,347,176"/>
+<area shape="rect" id="node3" href="$classsstmac_1_1locatable.html" title="sstmac::locatable" alt="" coords="5,124,131,151"/>
+<area shape="rect" id="node6" href="$classsstmac_1_1hw_1_1nic.html" title="sstmac::hw::nic" alt="" coords="867,56,981,83"/>
+<area shape="rect" id="node7" href="$classsstmac_1_1hw_1_1logp__nic.html" title="Implements a NIC that does very basic congestion modeling using the LogGP model. See &quot;LogGP in Theory..." alt="" coords="1047,5,1193,32"/>
+<area shape="rect" id="node8" href="$classsstmac_1_1hw_1_1pisces__nic.html" title="sstmac::hw::pisces_nic" alt="" coords="1040,56,1200,83"/>
+<area shape="rect" id="node10" href="$classsstmac_1_1hw_1_1pisces__netlink.html" title="sstmac::hw::pisces\l_netlink" alt="" coords="856,107,992,149"/>
+<area shape="rect" id="node12" href="$classsstmac_1_1hw_1_1pisces__buffer.html" title="sstmac::hw::pisces\l_buffer" alt="" coords="856,173,992,214"/>
+<area shape="rect" id="node16" href="$classsstmac_1_1hw_1_1pisces__NtoM__queue.html" title="sstmac::hw::pisces\l_NtoM_queue" alt="" coords="856,335,992,377"/>
+<area shape="rect" id="node13" href="$classsstmac_1_1hw_1_1pisces__eject__buffer.html" title="sstmac::hw::pisces\l_eject_buffer" alt="" coords="1052,107,1188,149"/>
+<area shape="rect" id="node14" href="$classsstmac_1_1hw_1_1pisces__injection__buffer.html" title="sstmac::hw::pisces\l_injection_buffer" alt="" coords="1052,173,1188,214"/>
+<area shape="rect" id="node15" href="$classsstmac_1_1hw_1_1pisces__network__buffer.html" title="sstmac::hw::pisces\l_network_buffer" alt="" coords="1052,238,1188,279"/>
+<area shape="rect" id="node17" href="$classsstmac_1_1hw_1_1pisces__crossbar.html" title="sstmac::hw::pisces\l_crossbar" alt="" coords="1052,303,1188,345"/>
+<area shape="rect" id="node18" href="$classsstmac_1_1hw_1_1pisces__demuxer.html" title="sstmac::hw::pisces\l_demuxer" alt="" coords="1052,369,1188,410"/>
+<area shape="rect" id="node19" href="$classsstmac_1_1hw_1_1pisces__muxer.html" title="sstmac::hw::pisces\l_muxer" alt="" coords="1052,434,1188,475"/>
+</map>
