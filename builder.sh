@@ -7,7 +7,8 @@ cd $LOC/sst-macro-7.1.0
 ./bootstrap.sh
 cd $LOC
 
-INSTALL_LOC="path/to/you/install/loc"
+#INSTALL_LOC="path/to/you/install/loc"
+INSTALL_LOC="/dev/shm/sst-install"
 mkdir -p $INSTALL_LOC
 
 

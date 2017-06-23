@@ -1,18 +1,46 @@
-/*
-s *  This file is part of DUMPI: 
- *               The MPI profiling library from the SST suite.
- *  Copyright (c) 2009 Sandia Corporation.
- *  This software is distributed under the BSD License.
- *  Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation,
- *  the U.S. Government retains certain rights in this software.
- *  For more information, see the LICENSE file in the top 
- *  SST/macroscale directory.
- */
+/**
+Copyright 2009-2017 National Technology and Engineering Solutions of Sandia, 
+LLC (NTESS).  Under the terms of Contract DE-NA-0003525, the U.S.  Government 
+retains certain rights in this software.
 
-/*
- * Bindings for all MPI routines.
- * Auto-generated on Thu Aug 20 23:13:24 PDT 2009
- */
+Sandia National Laboratories is a multimission laboratory managed and operated
+by National Technology and Engineering Solutions of Sandia, LLC., a wholly 
+owned subsidiary of Honeywell International, Inc., for the U.S. Department of 
+Energy's National Nuclear Security Administration under contract DE-NA0003525.
+
+Copyright (c) 2009-2017, NTESS
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+
+    * Neither the name of Sandia Corporation nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Questions? Contact sst-macro-help@sandia.gov
+*/
 
 #include <dumpi/dumpiconfig.h>
 #include <dumpi/libdumpi/mpibindings.h>
@@ -1448,7 +1476,9 @@ int MPI_Type_indexed(int count, DUMPI_CONST int *lengths, DUMPI_CONST int *indic
 #endif /* DUMPI_SKIP_MPI_TYPE_INDEXED */
 
 #ifndef DUMPI_SKIP_MPI_TYPE_HINDEXED
-int MPI_Type_hindexed(int count, DUMPI_CONST int *lengths, DUMPI_CONST MPI_Aint *indices, MPI_Datatype oldtype, MPI_Datatype *newtype) {
+int MPI_Type_hindexed(int count, DUMPI_DEPRECATED_CONST int *lengths, 
+  DUMPI_DEPRECATED_CONST MPI_Aint *indices, 
+  MPI_Datatype oldtype, MPI_Datatype *newtype) {
   int16_t thread;
   dumpi_time cpu, wall;
   int retval;
@@ -1483,7 +1513,9 @@ int MPI_Type_hindexed(int count, DUMPI_CONST int *lengths, DUMPI_CONST MPI_Aint 
 #endif /* DUMPI_SKIP_MPI_TYPE_HINDEXED */
 
 #ifndef DUMPI_SKIP_MPI_TYPE_STRUCT
-int MPI_Type_struct(int count, DUMPI_CONST int *lengths, DUMPI_CONST MPI_Aint *indices, DUMPI_CONST MPI_Datatype *oldtypes, MPI_Datatype *newtype) {
+int MPI_Type_struct(int count, DUMPI_DEPRECATED_CONST int *lengths, 
+  DUMPI_DEPRECATED_CONST MPI_Aint *indices, 
+  DUMPI_DEPRECATED_CONST MPI_Datatype *oldtypes, MPI_Datatype *newtype) {
   int16_t thread;
   dumpi_time cpu, wall;
   int retval;
@@ -1518,7 +1550,7 @@ int MPI_Type_struct(int count, DUMPI_CONST int *lengths, DUMPI_CONST MPI_Aint *i
 #endif /* DUMPI_SKIP_MPI_TYPE_STRUCT */
 
 #ifndef DUMPI_SKIP_MPI_ADDRESS
-int MPI_Address(DUMPI_CONST void *buf, MPI_Aint *address) {
+int MPI_Address(DUMPI_DEPRECATED_CONST void *buf, MPI_Aint *address) {
   int16_t thread;
   dumpi_time cpu, wall;
   int retval;
@@ -9493,4 +9525,3 @@ int MPIO_Testsome(int count, MPIO_Request *requests, int *outcount, int *indices
   return retval;
 }
 #endif /* DUMPI_SKIP_MPIO_TESTSOME */
-
