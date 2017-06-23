@@ -23,9 +23,9 @@ fi
 
 cd $LOC/sst-core-7.1.0
 export SST_CORE_HOME=$INSTALL_LOC/sstcore-7.1.0
-#./configure --prefix=$SST_CORE_HOME
-#make all -j `nproc`
-#make install
+./configure --prefix=$SST_CORE_HOME
+make all -j `nproc`
+make install
 export PATH=$SST_CORE_HOME/bin:$PATH
 
 
