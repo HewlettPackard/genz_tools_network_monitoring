@@ -1,7 +1,7 @@
 set -ex
 
 LOC=`pwd`
-if false
+if true
 then
 cd  sst-core-7.1.0  
 ./autogen.sh
@@ -15,7 +15,7 @@ INSTALL_LOC="/dev/shm/sst-install"
 mkdir -p $INSTALL_LOC
 
 
-if false
+if true
 then
 wget  https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz/download -O boost_1_59_0.tar.gz
 tar zxvf boost_1_59_0.tar.gz
