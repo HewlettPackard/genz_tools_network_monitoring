@@ -3,7 +3,7 @@ set -ex
 LOC=`pwd`
 cd  sst-core-7.1.0  
 ./autogen.sh
-cd $LOC
+cd $LOC/sst-macro-7.1.0
 ./bootstrap.sh
 cd $LOC
 
@@ -13,11 +13,11 @@ mkdir -p $INSTALL_LOC
 
 if true
 then
-wget  https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz/download -O boost_1_59_0.tar.gz&
+wget  https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz/download -O boost_1_59_0.tar.gz
 tar zxvf boost_1_59_0.tar.gz
 fi
 
-cd $LOC/sstcore-7.1.0
+cd $LOC/sst-core-7.1.0
 export SST_CORE_HOME=$INSTALL_LOC/sstcore-7.1.0
 ./configure --prefix=$SST_CORE_HOME
 make all -j `nproc`
