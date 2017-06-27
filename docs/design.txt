@@ -1,0 +1,33 @@
+How to select a message to monitor?
+-----------------------------------
+This is done in the sumi_transport.cc file. The send function creates a message out of the command received from the application. It creates an object of type transport_message to send over the network. Before the message is sent, we perform the check to see if the packet has to be monitored. The idea is to monitor one random message out of every N messages coming out a thread of a node. We have a per-thread counter which is keeps track of the number of messages sent from each thread of a node. The counter is incremented after each message and gets reset to 0 after the Nth message is sent. Everytime the counter is 0, we pick a random number, say i, in the range (0,N). The i'th message is marked as the messaged which is monitored. We have added a boolean field in the message data structure that denotes whether the message is monitored.
+
+Nic logging
+-----------
+Nic receives the message, calls the packetizer which creates packets out of the message. The packetizer then sends the packets one-by-one to the buffer as long as there is space on the buffer(sendWhatYouCan).
+Now the idea is to mark 1 packet out of the N packets created by the packetizer out of the message. Currently we are marking the tail packet. This can be easily changed to marking the head packet or any random packet.
+The buffer accumulates log data about the marked packet and sends it back to the packetizer. As soon as the log data is received, it is logged to the nic log file.
+The reason for logging at sendWhatyouCan is that the packetizer does not guarantee that all the packets belonging to a particular message will be sent together. The packets are sent as long as there is space on the buffer. So the next time sendWhatyouCan is called, the packetizer first attempts to send the remaining packets of the old message and then the new packets. Since the marked packet can be one of the remaining packets, sending the log info back to the nic would not work because the control may not be passed back to the nic.
+
+Nic log information
+-------------------
+Currently nic log information contains
+- node_id of the source node
+- node_id of the destination node
+- next hop id
+- next hop type
+- arrival time at the nic
+- time the head of the packet leaves the buffer
+- time the tail leaves the buffer
+Nic log information for the nic on the receive side does not contain next hop id and type
+
+Switch log information
+----------------------
+The switch log information contains
+- node_id of the source node
+- node_id of the destination node
+- next hop id
+- next hop type
+- arrival time at the nic
+- time the head of the packet leaves the buffer
+- time the tail leaves the buffer
