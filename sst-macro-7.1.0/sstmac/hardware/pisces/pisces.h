@@ -178,6 +178,16 @@ class pisces_payload :
   void
   serialize_order(serializer& ser) override;
 
+  void
+    set_id(uint64_t id) {
+    id_ = id;
+  }
+  
+  uint64_t
+    get_id() {
+    return id_;
+  }
+
  protected:
   pisces_payload(){} //for serialization
 
@@ -190,6 +200,8 @@ class pisces_payload :
   timestamp arrival_;
 
   int vc_;
+
+  uint64_t id_;
 
 };
 

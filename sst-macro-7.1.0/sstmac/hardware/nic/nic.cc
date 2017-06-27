@@ -130,7 +130,7 @@ nic::nic(sprockit::sim_parameters* params, node* parent) :
   std::stringstream ss;
   ss << "nic_" << addr() << ".log";
   nic_log.open(ss.str());
-  nic_log << "Source,Destination,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
+  nic_log << "Source,Destination,Packet_id,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
 }
 
 nic::~nic()

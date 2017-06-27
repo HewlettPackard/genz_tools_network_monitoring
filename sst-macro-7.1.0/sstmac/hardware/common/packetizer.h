@@ -139,6 +139,7 @@ class packetizer :
 
   std::ofstream* nic_logger;
 
+  uint64_t packet_ctr_ = 0;
 };
 
 }

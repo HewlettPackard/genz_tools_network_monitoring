@@ -219,6 +219,7 @@ pisces_sender::send(
     log  = new log_info();
     log->from_addr = pkt->fromaddr();
     log->to_addr = pkt->toaddr();
+    log->packet_id = pkt->get_id();
     log->next_hop_id = dest.handler->event_location().id();
     log->next_hop_type = dest.handler->event_location().type();
     log->arr_time = pkt->arrival().sec();

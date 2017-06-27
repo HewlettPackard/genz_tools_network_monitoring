@@ -82,7 +82,7 @@ network_switch::network_switch(sprockit::sim_parameters *params, uint64_t id, ev
   std::stringstream ss;
   ss << "switch_" << addr() << ".log";
   switch_log.open(ss.str());
-  switch_log << "Switch_id,Source,Destination,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
+  switch_log << "Switch_id,Source,Destination,Packet_id,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
 }
 
 void
@@ -94,8 +94,6 @@ network_switch::init(unsigned int phase)
   }
 #endif
 }
-
-
 
 }
 }

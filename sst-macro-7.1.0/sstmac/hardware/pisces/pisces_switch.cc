@@ -250,6 +250,7 @@ pisces_switch::handle_payload(event *ev)
     switch_log << addr() << ","
 	       << log->from_addr << ","
 	       << log->to_addr << ","
+	       << log->packet_id << ","
 	       << log->next_hop_id << ","
 	       << log->next_hop_type << ","
 	       << log->arr_time << ","

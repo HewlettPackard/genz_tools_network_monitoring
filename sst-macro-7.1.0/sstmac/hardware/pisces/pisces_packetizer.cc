@@ -180,8 +180,7 @@ pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bo
   pisces_payload* payload = pkt_allocator_->new_packet(bytes, msg->flow_id(), is_tail,
                                                        msg->toaddr(), msg->fromaddr(),
                                                        is_tail ? msg : nullptr);
-
-  //if (pm_monitor) std::cout << "Packet monitored\n";
+  payload->set_id(packet_ctr_++);
   payload->set_pm_monitor(pm_monitor);
 
   return inj_buffer_->handle_payload(payload);
@@ -219,6 +218,7 @@ pisces_simple_packetizer::recv_packet(event* ev)
   if (pkt->is_pm_monitor()) {
     (*nic_logger) << pkt->fromaddr() << ","
 		  << pkt->toaddr() << ","
+		  << pkt->get_id() << ","
 		  << "NA" << ","
 		  << "NA" << ","
       //<< payload->get_arr_time() << ","
@@ -246,6 +246,7 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
   if (pkt->is_pm_monitor()) {
     (*nic_logger) << pkt->fromaddr() << ","
 		  << pkt->toaddr() << ","
+      		  << pkt->get_id() << ","
 		  << "NA" << ","
 		  << "NA" << ","
       //<< payload->get_arr_time() << ","

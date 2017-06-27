@@ -3,7 +3,7 @@
 #include <sprockit/sim_parameters.h>
 #include <sprockit/util.h>
 
-#define MAX_LOGS_PER_MESSAGE 1
+//#define MAX_LOGS_PER_MESSAGE 1
 
 RegisterDebugSlot(packetizer);
 
@@ -93,6 +93,7 @@ namespace sstmac {
 	    (*nic_logger) //<< my_addr_ << ","
 			  << log->from_addr << ","
 			  << log->to_addr << ","
+			  << log->packet_id << ","
 			  << log->next_hop_id << ","
 			  << log->next_hop_type << ","
 	      //<< payload->get_arr_time() << ","
