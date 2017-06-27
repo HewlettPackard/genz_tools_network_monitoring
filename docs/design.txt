@@ -31,3 +31,7 @@ The switch log information contains
 - arrival time at the nic
 - time the head of the packet leaves the buffer
 - time the tail leaves the buffer
+
+Generate packet_id
+------------------
+Maintain a counter in packetizer. Packetizer is local to each nic. Whenever a new packet is created, set the value of the counter as the id of the packet and increment the counter.
