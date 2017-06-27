@@ -112,7 +112,7 @@ class pisces_network_buffer :
   void
   handle_credit(event* ev) override;
 
-  void
+  log_info*
   handle_payload(event* ev) override;
 
   std::string
@@ -156,7 +156,7 @@ class pisces_eject_buffer :
   void
   handle_credit(event* ev) override;
 
-  void
+  log_info*
   handle_payload(event* ev) override;
 
   void
@@ -189,7 +189,7 @@ class pisces_injection_buffer :
   void
   handle_credit(event* ev) override;
 
-  void
+  log_info*
   handle_payload(event* ev) override;
 
   std::string

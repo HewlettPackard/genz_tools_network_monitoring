@@ -68,7 +68,7 @@ class pisces_NtoM_queue :
     return event_subcomponent::thread_id();
   }
 
-  void
+  log_info*
   handle_payload(event* ev) override;
 
   void
@@ -149,7 +149,7 @@ class pisces_NtoM_queue :
   std::map<int, std::map<int, std::list<pisces_payload*> > > blocked_messages_;
 
  protected:
-  void
+  log_info*
   send_payload(pisces_payload* pkt);
 
   void

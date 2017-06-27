@@ -55,6 +55,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sst/core/interfaces/simpleNetwork.h>
 #endif
 
+#include <sstmac/hardware/common/log_info.h>
+
 DeclareDebugSlot(packetizer)
 
 namespace sstmac {
@@ -98,9 +100,13 @@ class packetizer :
   virtual link_handler* new_payload_handler() const = 0;
   virtual link_handler* new_credit_handler() const = 0;
 
+  void set_nic_logger(std::ofstream* nic_log) {
+    nic_logger = nic_log;
+  }
+
  private:
-  virtual void
-  inject(int vn, long bytes, long byte_offset, message* payload) = 0;
+  virtual log_info*
+    inject(int vn, long bytes, long byte_offset, message* payload, bool pm_monitor) = 0;
 
   virtual bool
   spaceToSend(int vn, int num_bits) = 0;
@@ -113,6 +119,8 @@ class packetizer :
     long bytes_left;
     long offset;
   };
+
+  bool pm_mark_packet(pending_send& msg_info, long bytes, long byte_offset);
 
   std::map<int, std::list<pending_send> > pending_;
 
@@ -128,6 +136,8 @@ class packetizer :
              event_scheduler* parent);
 
   void bytesArrived(int vn, uint64_t unique_id, int bytes, message* parent);
+
+  std::ofstream* nic_logger;
 
 };
 

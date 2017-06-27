@@ -116,7 +116,7 @@ class network_switch :
 
   switch_id my_addr_;
   topology* top_;
-
+  std::ofstream switch_log;
 };
 
 

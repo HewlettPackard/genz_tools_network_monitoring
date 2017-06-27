@@ -89,6 +89,10 @@ thread::init_thread(int physical_thread_id, threading_interface* threadcopy, voi
 
   context_->start_context(physical_thread_id, stack, stacksize, run_routine, info,
                           yield_to, globals_storage);
+
+  pm_tracking_ctr_ = 0;
+
+  rand_gen_.seed(std::random_device()());  
 }
 
 device_id
@@ -326,6 +330,31 @@ thread::join()
   }
   os_->join_thread(this);
 }
+
+uint64_t
+thread::get_pm_tracking_ctr() const {
+  return pm_tracking_ctr_;
+}
+
+  void
+  thread::set_pm_tracking_ctr(uint64_t ctr) {
+    pm_tracking_ctr_ = ctr;
+  }
+
+uint64_t
+thread::get_marked_packet_idx() const {
+  return marked_packet_idx_;
+}
+
+  void
+  thread::set_marked_packet_idx(uint64_t idx) {
+    marked_packet_idx_ = idx;
+  }
+
+  std::mt19937&
+  thread::get_rand_gen() {
+    return rand_gen_;
+  }  
 
 }
 } // end of namespace sstmac

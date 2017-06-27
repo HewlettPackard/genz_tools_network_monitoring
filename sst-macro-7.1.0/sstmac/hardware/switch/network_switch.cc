@@ -66,6 +66,7 @@ namespace hw {
 
 network_switch::~network_switch()
 {
+  switch_log.close();
 }
 
 
@@ -77,6 +78,11 @@ network_switch::network_switch(sprockit::sim_parameters *params, uint64_t id, ev
 {
   my_addr_ = event_location().id();
   top_ = topology::static_topology(params);
+
+  std::stringstream ss;
+  ss << "switch_" << addr() << ".log";
+  switch_log.open(ss.str());
+  switch_log << "Switch_id,Source,Destination,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
 }
 
 void

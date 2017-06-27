@@ -190,6 +190,8 @@ class sumi_transport :
                  sstmac::sw::operating_system* os);
 
  private:
+  bool monitor_message();
+  
   void send(long byte_length,
     int dest_rank,
     node_id dest_node,

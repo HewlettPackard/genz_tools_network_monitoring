@@ -194,8 +194,8 @@ pisces_memory_packetizer::init_noise_model()
   }
 }
 
-void
-pisces_memory_packetizer::inject(int vn, long bytes, long byte_offset, message* msg)
+log_info*
+pisces_memory_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bool pm_monitor)
 {
   bool is_tail = (bytes + byte_offset) == msg->byte_length();
   pisces_payload* payload = pkt_allocator_->new_packet(bytes, msg->flow_id(), is_tail,
@@ -211,6 +211,8 @@ pisces_memory_packetizer::inject(int vn, long bytes, long byte_offset, message* 
   debug("injecting %s on vn %d", payload->to_string().c_str(), vn);
 
   handle_payload(vn, payload);
+
+  return NULL;
 }
 
 void

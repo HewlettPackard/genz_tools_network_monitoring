@@ -237,11 +237,27 @@ pisces_switch::handle_credit(event *ev)
 
 void
 pisces_switch::handle_payload(event *ev)
-{
+{  
   pisces_payload* payload = static_cast<pisces_payload*>(ev);
+
+  //payload->test_uniq_id = 107;
+  
   switch_debug("handling payload %s", payload->to_string().c_str());
   router_->route(payload);
-  xbar_->handle_payload(payload);
+  log_info* log = xbar_->handle_payload(payload);
+
+  if (log) {
+    switch_log << addr() << ","
+	       << log->from_addr << ","
+	       << log->to_addr << ","
+	       << log->next_hop_id << ","
+	       << log->next_hop_type << ","
+	       << log->arr_time << ","
+	       << log->head_leaves << ","
+	       << log->tail_leaves
+	       << std::endl;
+  }
+
 }
 
 std::string

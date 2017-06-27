@@ -218,7 +218,7 @@ pisces_NtoM_queue::output_name(pisces_payload* pkt)
   return output_handler(pkt)->to_string();
 }
 
-void
+log_info*
 pisces_NtoM_queue::send_payload(pisces_payload* pkt)
 {
   int loc_port = local_port(pkt->next_port());
@@ -230,7 +230,7 @@ pisces_NtoM_queue::send_payload(pisces_payload* pkt)
      pkt->to_string().c_str(),
      output_name(pkt).c_str(),
      output_handler(pkt));
-  send(arb_, pkt, inputs_[pkt->inport()], outputs_[loc_port]);
+  return send(arb_, pkt, inputs_[pkt->inport()], outputs_[loc_port]);
 }
 
 void
@@ -261,7 +261,7 @@ pisces_NtoM_queue::handle_credit(event* ev)
   delete pkt;
 }
 
-void
+log_info*
 pisces_NtoM_queue::handle_payload(event* ev)
 {
   auto pkt = static_cast<pisces_payload*>(ev);
@@ -289,7 +289,7 @@ pisces_NtoM_queue::handle_payload(event* ev)
 
   if (num_credits >= pkt->num_bytes()) {
     num_credits -= pkt->num_bytes();
-    send_payload(pkt);
+    return send_payload(pkt);
   }
   else {
     pisces_debug(
@@ -298,6 +298,7 @@ pisces_NtoM_queue::handle_payload(event* ev)
       local_slot(dst_port, dst_vc), dst_port, dst_vc, queues_.size(), num_vc_,
       port_offset_, port_div_, port_mod_);
     queue(dst_port, dst_vc).push_back(pkt);
+    return NULL;
   }
 }
 

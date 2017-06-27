@@ -159,7 +159,7 @@ pisces_network_buffer::payload_handler()
   return payload_handler_;
 }
 
-void
+log_info*
 pisces_network_buffer::handle_payload(event* ev)
 {
   auto pkt = static_cast<pisces_payload*>(ev);
@@ -193,10 +193,11 @@ pisces_network_buffer::handle_payload(event* ev)
   bytes_delayed_ += pkt->num_bytes();
   if (num_credits >= pkt->num_bytes()) {
     num_credits -= pkt->num_bytes();
-    send(arb_, pkt, input_, output_);
+    return send(arb_, pkt, input_, output_);
   }
   else {
     queues_[dst_vc].push_back(pkt);
+    return NULL;
   }
 }
 
@@ -340,7 +341,7 @@ pisces_eject_buffer::return_credit(packet* pkt)
   send_credit(input_, safe_cast(pisces_payload, pkt), now());
 }
 
-void
+log_info*
 pisces_eject_buffer::handle_payload(event* ev)
 {
   auto pkt = static_cast<pisces_payload*>(ev);
@@ -351,6 +352,7 @@ pisces_eject_buffer::handle_payload(event* ev)
     pkt->to_string().c_str());
   return_credit(pkt);
   output_.handler->handle(pkt);
+  return NULL;
 }
 
 void
@@ -394,14 +396,14 @@ pisces_injection_buffer::handle_credit(event* ev)
   //delete msg;
 }
 
-void
+log_info*
 pisces_injection_buffer::handle_payload(event* ev)
 {
   auto pkt = static_cast<pisces_payload*>(ev);
   pkt->set_arrival(now());
   credits_ -= pkt->byte_length();
   //we only get here if we cleared the credits
-  send(arb_, pkt, input_, output_);
+  return send(arb_, pkt, input_, output_);
 }
 
 pisces_injection_buffer::~pisces_injection_buffer()

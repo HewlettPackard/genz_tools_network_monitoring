@@ -58,6 +58,9 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/common/stats/stat_spyplot.h>
 #include <sumi/message.h>
 #include <sprockit/output.h>
+#include <sstmac/common/runtime.h>
+
+#define PM_MONITOR_RANGE 1
 
 using namespace sprockit::dbg;
 
@@ -357,6 +360,30 @@ sumi_transport::send(
   send(byte_length, dst_rank, dst_node, sid().app_, msg, needs_ack, sendType);
 }
 
+  bool
+  sumi_transport::monitor_message() {
+    sw::thread* t = sw::operating_system::current_thread();
+    uint64_t pm_ctr = t->get_pm_tracking_ctr();
+
+    //std::cout << "tid = " << t->thread_id() << "PM counter entering = " << pm_ctr << std::endl;
+    if (pm_ctr == 0) {
+      std::uniform_int_distribution<std::mt19937::result_type> dist(0,PM_MONITOR_RANGE);
+      //t->set_marked_packet_idx(rand() % PM_MONITOR_RANGE);
+      t->set_marked_packet_idx(dist(t->get_rand_gen()));
+      //std::cout << "Marked packet index = " <<  t->get_marked_packet_idx() << std::endl;
+    }
+
+    t->set_pm_tracking_ctr((pm_ctr + 1) % PM_MONITOR_RANGE);
+
+    //std::cout << "tid = " << t->thread_id() << "PM counter leaving = " << t->get_pm_tracking_ctr() << std::endl;
+    if (pm_ctr == t->get_marked_packet_idx()) {
+      return true;
+    } else {    
+      return false;
+    }
+  }
+
+  
 void
 sumi_transport::send(
   long byte_length,
@@ -369,6 +396,12 @@ sumi_transport::send(
 {
   sstmac::sw::app_id aid = sid().app_;
   transport_message* tmsg = new transport_message(server_libname_, aid, msg, byte_length);
+
+  //std::cout << "sending\n";
+  if (monitor_message()) {
+    tmsg->set_pm_monitor(true);
+  }
+  
   tmsg->hw::network_message::set_type((hw::network_message::type_t)ty);
   tmsg->toaddr_ = dst_node;
   tmsg->set_needs_ack(needs_ack);

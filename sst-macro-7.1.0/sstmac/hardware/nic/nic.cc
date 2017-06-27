@@ -126,6 +126,11 @@ nic::nic(sprockit::sim_parameters* params, node* parent) :
 #if !SSTMAC_INTEGRATED_SST_CORE
   link_mtl_handler_ = new_handler(this, &nic::mtl_handle);
 #endif
+
+  std::stringstream ss;
+  ss << "nic_" << addr() << ".log";
+  nic_log.open(ss.str());
+  nic_log << "Source,Destination,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
 }
 
 nic::~nic()
@@ -140,6 +145,8 @@ nic::~nic()
 #if !SSTMAC_INTEGRATED_SST_CORE
   delete link_mtl_handler_;
 #endif
+  
+  nic_log.close();
 }
 
 void

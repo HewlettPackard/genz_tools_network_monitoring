@@ -52,6 +52,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/hardware/pisces/pisces_stats.h>
 #include <sstmac/common/event_scheduler.h>
 
+#include <sstmac/hardware/common/log_info.h>
+
 #define pisces_debug(...) \
   debug_printf(sprockit::dbg::pisces, __VA_ARGS__)
 
@@ -113,7 +115,7 @@ class pisces_sender :
 
   virtual void handle_credit(event* ev) = 0;
 
-  virtual void handle_payload(event* ev) = 0;
+  virtual log_info* handle_payload(event* ev) = 0;
 
   static void configure_credit_port_latency(sprockit::sim_parameters* params);
 
@@ -139,7 +141,7 @@ class pisces_sender :
     pisces_payload* payload,
     timestamp packet_tail_leaves);
 
-  void send(pisces_bandwidth_arbitrator* arb,
+  log_info* send(pisces_bandwidth_arbitrator* arb,
        pisces_payload* pkt,
        const pisces_input& src,
        const pisces_output& dest);

@@ -63,6 +63,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <map>
 #include <utility>
 #include <list>
+#include <random>
 
 #include <unistd.h>
 
@@ -302,6 +303,21 @@ class thread
   timestamp
   now();
 
+  uint64_t
+    get_pm_tracking_ctr() const;
+
+  void
+    set_pm_tracking_ctr(uint64_t);
+
+  uint64_t
+    get_marked_packet_idx() const;
+
+  void
+    set_marked_packet_idx(uint64_t);
+
+  std::mt19937&
+    get_rand_gen();
+  
  protected:
   thread(sprockit::sim_parameters* params, software_id sid, operating_system* os);
 
@@ -366,6 +382,11 @@ class thread
   
   int active_core_;
 
+  uint64_t pm_tracking_ctr_;
+
+  uint64_t marked_packet_idx_;
+
+  std::mt19937 rand_gen_; //the Mersenne Twister random number generator  
 };
 
 }

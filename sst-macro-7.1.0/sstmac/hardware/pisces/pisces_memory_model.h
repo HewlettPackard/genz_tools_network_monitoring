@@ -109,7 +109,7 @@ class pisces_memory_packetizer : public packetizer
 
   void recv_credit(event* ev);
 
-  void inject(int vn, long bytes, long byte_offset, message *payload) override;
+  log_info* inject(int vn, long bytes, long byte_offset, message *payload, bool pm_monitor) override;
 
   bool spaceToSend(int vn, int num_bits) override {
     return true;

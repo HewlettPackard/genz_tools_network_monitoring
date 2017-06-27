@@ -170,15 +170,21 @@ pisces_packetizer::spaceToSend(int vn, int num_bits)
   return inj_buffer_->space_to_send(num_bits/8);
 }
 
-void
-pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg)
+  //SET PM BIT HERE**************
+log_info*
+pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bool pm_monitor)
 {
+  //std::cout << "addr" << my_addr_ << std::endl;
   bool is_tail = (byte_offset + bytes) == msg->byte_length();
   //only carry the payload if you're the tail packet
   pisces_payload* payload = pkt_allocator_->new_packet(bytes, msg->flow_id(), is_tail,
                                                        msg->toaddr(), msg->fromaddr(),
                                                        is_tail ? msg : nullptr);
-  inj_buffer_->handle_payload(payload);
+
+  //if (pm_monitor) std::cout << "Packet monitored\n";
+  payload->set_pm_monitor(pm_monitor);
+
+  return inj_buffer_->handle_payload(payload);
 }
 
 void
@@ -209,6 +215,19 @@ pisces_simple_packetizer::recv_packet(event* ev)
 {
   pisces_payload* pkt = static_cast<pisces_payload*>(ev);
   recv_packet_common(pkt);
+
+  if (pkt->is_pm_monitor()) {
+    (*nic_logger) << pkt->fromaddr() << ","
+		  << pkt->toaddr() << ","
+		  << "NA" << ","
+		  << "NA" << ","
+      //<< payload->get_arr_time() << ","
+		  << pkt->arrival().sec() << ","
+		  << "NA" << ","
+		  << "NA"
+		  << std::endl;	
+  }
+  
   int vn = 0;
   packetArrived(vn, pkt);
 }
@@ -223,6 +242,19 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
   debug_printf(sprockit::dbg::pisces,
     "packet %s scheduled to arrive at packetizer after delay of t=%12.6es",
      pkt->to_string().c_str(), delay.sec());
+
+  if (pkt->is_pm_monitor()) {
+    (*nic_logger) << pkt->fromaddr() << ","
+		  << pkt->toaddr() << ","
+		  << "NA" << ","
+		  << "NA" << ","
+      //<< payload->get_arr_time() << ","
+		  << pkt->arrival().sec() << ","
+		  << "NA" << ","
+		  << "NA"
+		  << std::endl;	
+  }  
+  
   send_delayed_self_event_queue(delay,
     new_callback(this, &packetizer::packetArrived, vn, (packet*)pkt));
 }

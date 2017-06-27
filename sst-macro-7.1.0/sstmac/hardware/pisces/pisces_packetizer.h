@@ -75,7 +75,7 @@ class pisces_packetizer :
 
   bool spaceToSend(int vn, int num_bits) override;
 
-  void inject(int vn, long bytes, long byte_offset, message *payload) override;
+  log_info* inject(int vn, long bytes, long byte_offset, message *payload, bool pm_monitor) override;
 
   /**
    Set up the injection/ejection links to the switch the NIC is connected to

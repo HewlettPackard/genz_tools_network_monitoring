@@ -160,13 +160,14 @@ pisces_sender::handle(event* ev)
 }
 */
 
-void
+log_info*
 pisces_sender::send(
   pisces_bandwidth_arbitrator* arb,
   pisces_payload* pkt,
   const pisces_input& src,
   const pisces_output& dest)
 {
+
   pkt_arbitration_t st;
   st.incoming_bw = pkt->bw();
   st.now = now();
@@ -211,7 +212,28 @@ pisces_sender::send(
   //weird hack to update vc from routing
   if (update_vc_) pkt->update_vc();
 
+  
+  log_info* log = NULL;
+
+  if (pkt->is_pm_monitor()) {
+    log  = new log_info();
+    log->from_addr = pkt->fromaddr();
+    log->to_addr = pkt->toaddr();
+    log->next_hop_id = dest.handler->event_location().id();
+    log->next_hop_type = dest.handler->event_location().type();
+    log->arr_time = pkt->arrival().sec();
+    log->head_leaves =  st.head_leaves.sec();
+    log->tail_leaves = st.tail_leaves.sec();
+    //if(dest.handler->event_location().id() != 0) {
+    //std::cout << dest.handler->event_location().id() << ", " << dest.handler->event_location().type() << std::endl;
+    //std::cout <<  dest.dst_inport << std::endl;
+    //}
+    //log destination port and
+  }
+
   send_to_link(st.head_leaves, send_lat_, dest.handler, pkt);
+
+  return log;
 }
 
 std::string
