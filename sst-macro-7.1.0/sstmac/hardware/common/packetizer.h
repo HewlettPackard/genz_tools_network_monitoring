@@ -139,6 +139,7 @@ class packetizer :
 
   std::ofstream* nic_logger;
 
+  /*Packet counter has to be atomic  when simulating real hardware. But here since there is just 1 packetizer non atomic updates to packet_ctr is sufficient.*/
   uint64_t packet_ctr_ = 0;
 };
 
