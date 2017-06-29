@@ -216,16 +216,18 @@ pisces_simple_packetizer::recv_packet(event* ev)
   recv_packet_common(pkt);
 
   if (pkt->is_pm_monitor()) {
-    (*nic_logger) << pkt->fromaddr() << ","
-		  << pkt->toaddr() << ","
-		  << pkt->get_id() << ","
-		  << "NA" << ","
-		  << "NA" << ","
-      //<< payload->get_arr_time() << ","
-		  << pkt->arrival().sec() << ","
-		  << "NA" << ","
-		  << "NA"
-		  << std::endl;	
+    if (logger_ != NULL) {
+      log_info* log = new log_info();
+      log->from_addr = pkt->fromaddr();
+      log->to_addr = pkt->toaddr();
+      log->packet_id = pkt->get_id();
+      log->next_hop_id = pkt->toaddr();
+      log->next_hop_type = pkt->toaddr();
+      log->arr_time = pkt->arrival().sec();
+      log->head_leaves =  0;
+      log->tail_leaves = 0;
+      logger_->recv(log);
+    }
   }
   
   int vn = 0;
@@ -244,17 +246,19 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
      pkt->to_string().c_str(), delay.sec());
 
   if (pkt->is_pm_monitor()) {
-    (*nic_logger) << pkt->fromaddr() << ","
-		  << pkt->toaddr() << ","
-      		  << pkt->get_id() << ","
-		  << "NA" << ","
-		  << "NA" << ","
-      //<< payload->get_arr_time() << ","
-		  << pkt->arrival().sec() << ","
-		  << "NA" << ","
-		  << "NA"
-		  << std::endl;	
-  }  
+    if (logger_ != NULL) {
+      log_info* log = new log_info();
+      log->from_addr = pkt->fromaddr();
+      log->to_addr = pkt->toaddr();
+      log->packet_id = pkt->get_id();
+      log->next_hop_id = pkt->toaddr();
+      log->next_hop_type = pkt->toaddr();
+      log->arr_time = pkt->arrival().sec();
+      log->head_leaves =  0;
+      log->tail_leaves = 0;
+      logger_->recv(log);
+    }
+  }
   
   send_delayed_self_event_queue(delay,
     new_callback(this, &packetizer::packetArrived, vn, (packet*)pkt));

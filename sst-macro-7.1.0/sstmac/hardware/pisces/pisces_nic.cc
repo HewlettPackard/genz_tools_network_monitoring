@@ -56,6 +56,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/sim_parameters.h>
 #include <sprockit/keyword_registration.h>
 
+#include <sstmac/hardware/common/monitor_logger.h>
+
 #include <stddef.h>
 
 RegisterNamespaces("congestion_delays", "congestion_matrix");
@@ -81,7 +83,10 @@ pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent) :
                                               inj_params, parent);
   packetizer_->setArrivalNotify(this);
   packetizer_->setInjectionAcker(mtl_handler());
-  packetizer_->set_nic_logger(&nic_log);
+
+  std::stringstream ss;
+  ss << "nic_" << addr() << ".log";
+  packetizer_->set_logger(new monitor_logger(ss.str()));
 
   //make port 0 a copy of the injection params
   sprockit::sim_parameters* port0_params = params->get_optional_namespace("port0");

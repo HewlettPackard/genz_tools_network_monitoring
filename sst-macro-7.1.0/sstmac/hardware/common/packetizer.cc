@@ -90,20 +90,9 @@ namespace sstmac {
 				 pm_mark_packet(next, num_bytes, next.offset));
 
 	  if (log) {
-	    (*nic_logger) //<< my_addr_ << ","
-			  << log->from_addr << ","
-			  << log->to_addr << ","
-			  << log->packet_id << ","
-			  << log->next_hop_id << ","
-			  << log->next_hop_type << ","
-	      //<< payload->get_arr_time() << ","
-			  << log->arr_time << ","
-			  << log->head_leaves << ","
-			  << log->tail_leaves
-			  << std::endl;
-	    
-	    //std::cout << log_acc.size() << ". " << log->from_addr << ", " << log->to_addr << std::endl;
-	    //log_acc.push_back(log);
+	    if (logger_ != NULL) {
+	      logger_->recv(log);
+	    }
 	  }
 
 	  next.offset += num_bytes;

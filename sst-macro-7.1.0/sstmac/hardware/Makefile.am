@@ -46,6 +46,7 @@ nobase_library_include_HEADERS = \
   common/param_expander.h \
   common/recv_cq.h \
   common/unique_id.h \
+  common/monitor_logger.h \
   pisces/packet_allocator.h \
   pisces/packet_allocator_fwd.h \
   pisces/pisces.h \
@@ -113,6 +114,7 @@ libsstmac_hw_la_SOURCES =  \
   common/packetizer.cc \
   common/param_expander.cc \
   common/recv_cq.cc \
+  common/monitor_logger.cc \
   memory/memory_model.cc \
   nic/netlink.cc \
   nic/nic.cc \

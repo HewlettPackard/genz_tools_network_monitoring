@@ -61,6 +61,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/debug.h>
 #include <sprockit/factories/factory.h>
 
+#include <sstmac/hardware/common/monitor_logger.h>
 #include <sstmac/hardware/nic/nic_log_info.h>
 
 DeclareDebugSlot(nic);
@@ -215,8 +216,6 @@ class nic :
 #if !SSTMAC_INTEGRATED_SST_CORE
   link_handler* link_mtl_handler_;
 #endif
-
-    std::ofstream nic_log;
 
  private:
   stat_spyplot* spy_num_messages_;

@@ -55,6 +55,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sst/core/interfaces/simpleNetwork.h>
 #endif
 
+#include <sstmac/hardware/common/monitor_logger.h>
 #include <sstmac/hardware/common/log_info.h>
 
 DeclareDebugSlot(packetizer)
@@ -100,8 +101,8 @@ class packetizer :
   virtual link_handler* new_payload_handler() const = 0;
   virtual link_handler* new_credit_handler() const = 0;
 
-  void set_nic_logger(std::ofstream* nic_log) {
-    nic_logger = nic_log;
+  void set_logger(monitor_logger* logger) {
+    logger_ = logger;
   }
 
  private:
@@ -137,7 +138,9 @@ class packetizer :
 
   void bytesArrived(int vn, uint64_t unique_id, int bytes, message* parent);
 
-  std::ofstream* nic_logger;
+  //monitored_connectable_subcomponent* parent_component;
+
+  monitor_logger* logger_;
 
   /*Packet counter has to be atomic  when simulating real hardware. But here since there is just 1 packetizer non atomic updates to packet_ctr is sufficient.*/
   uint64_t packet_ctr_ = 0;

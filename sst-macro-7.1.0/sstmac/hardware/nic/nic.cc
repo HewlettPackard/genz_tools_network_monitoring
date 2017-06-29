@@ -127,10 +127,7 @@ nic::nic(sprockit::sim_parameters* params, node* parent) :
   link_mtl_handler_ = new_handler(this, &nic::mtl_handle);
 #endif
 
-  std::stringstream ss;
-  ss << "nic_" << addr() << ".log";
-  nic_log.open(ss.str());
-  nic_log << "Source,Destination,Packet_id,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
+  //nic_log << "Source,Destination,Packet_id,Next_hop_id,Next_hop_type,Arrival_time,Dep_time_head,Dep_time_tail" << std::endl;
 }
 
 nic::~nic()
@@ -146,7 +143,7 @@ nic::~nic()
   delete link_mtl_handler_;
 #endif
   
-  nic_log.close();
+  //nic_log.close();
 }
 
 void

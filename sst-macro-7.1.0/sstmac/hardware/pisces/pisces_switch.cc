@@ -247,16 +247,19 @@ pisces_switch::handle_payload(event *ev)
   log_info* log = xbar_->handle_payload(payload);
 
   if (log) {
-    switch_log << addr() << ","
-	       << log->from_addr << ","
-	       << log->to_addr << ","
-	       << log->packet_id << ","
-	       << log->next_hop_id << ","
-	       << log->next_hop_type << ","
-	       << log->arr_time << ","
-	       << log->head_leaves << ","
-	       << log->tail_leaves
-	       << std::endl;
+    if (logger_ != NULL) {
+      logger_->recv(log);
+    }
+    // switch_log << addr() << ","
+    // 	       << log->from_addr << ","
+    // 	       << log->to_addr << ","
+    // 	       << log->packet_id << ","
+    // 	       << log->next_hop_id << ","
+    // 	       << log->next_hop_type << ","
+    // 	       << log->arr_time << ","
+    // 	       << log->head_leaves << ","
+    // 	       << log->tail_leaves
+    // 	       << std::endl;
   }
 
 }
