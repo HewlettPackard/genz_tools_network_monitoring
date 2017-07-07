@@ -93,6 +93,7 @@ namespace sstmac {
 	    if (logger_ != NULL) {
 	      logger_->recv(log);
 	    }
+	    delete log;
 	  }
 
 	  next.offset += num_bytes;

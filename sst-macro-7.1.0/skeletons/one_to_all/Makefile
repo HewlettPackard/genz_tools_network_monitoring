@@ -1,5 +1,5 @@
-TARGET := runmultiapp
-SRC := allgather.cc allreduce.cc
+TARGET := runsendrecv
+SRC := main.cc
 
 CXX :=    sst++
 CC :=     sstcc
@@ -27,7 +27,7 @@ $(TARGET): $(OBJ)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean: 
-	rm -f $(TARGET) $(OBJ) *.log *~
+	rm -f $(TARGET) $(OBJ) *~ *.log
 
 install: $(TARGET)
 	cp $< $(PREFIX)/bin

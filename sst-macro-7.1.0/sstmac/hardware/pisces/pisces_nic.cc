@@ -161,6 +161,7 @@ pisces_nic::connect_output(
   if (src_outport == Injection){
     pisces_packetizer* packer = safe_cast(pisces_packetizer, packetizer_);
     packer->set_output(params, dst_inport, mod);
+    //std::cout << "NIC: " << addr() << ":" << dst_inport << "," << mod->to_string() << std::endl;
   } else if (src_outport == LogP){
     logp_switch_ = mod;
   } else {

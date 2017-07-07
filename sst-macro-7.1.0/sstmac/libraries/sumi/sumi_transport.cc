@@ -60,7 +60,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/output.h>
 #include <sstmac/common/runtime.h>
 
-#define PM_MONITOR_RANGE 1
+#define PM_MONITOR_RANGE 10
 
 using namespace sprockit::dbg;
 

@@ -220,16 +220,11 @@ pisces_sender::send(
     log->from_addr = pkt->fromaddr();
     log->to_addr = pkt->toaddr();
     log->packet_id = pkt->get_id();
-    log->next_hop_id = dest.handler->event_location().id();
-    log->next_hop_type = dest.handler->event_location().type();
+    log->out_port = pkt->next_port();
+    log->next_hop_port = pkt->inport();
     log->arr_time = pkt->arrival().sec();
     log->head_leaves =  st.head_leaves.sec();
     log->tail_leaves = st.tail_leaves.sec();
-    //if(dest.handler->event_location().id() != 0) {
-    //std::cout << dest.handler->event_location().id() << ", " << dest.handler->event_location().type() << std::endl;
-    //std::cout <<  dest.dst_inport << std::endl;
-    //}
-    //log destination port and
   }
 
   send_to_link(st.head_leaves, send_lat_, dest.handler, pkt);

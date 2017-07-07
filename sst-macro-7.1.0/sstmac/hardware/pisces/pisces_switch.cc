@@ -240,8 +240,6 @@ pisces_switch::handle_payload(event *ev)
 {  
   pisces_payload* payload = static_cast<pisces_payload*>(ev);
 
-  //payload->test_uniq_id = 107;
-  
   switch_debug("handling payload %s", payload->to_string().c_str());
   router_->route(payload);
   log_info* log = xbar_->handle_payload(payload);
@@ -250,16 +248,16 @@ pisces_switch::handle_payload(event *ev)
     if (logger_ != NULL) {
       logger_->recv(log);
     }
-    // switch_log << addr() << ","
-    // 	       << log->from_addr << ","
-    // 	       << log->to_addr << ","
-    // 	       << log->packet_id << ","
-    // 	       << log->next_hop_id << ","
-    // 	       << log->next_hop_type << ","
-    // 	       << log->arr_time << ","
-    // 	       << log->head_leaves << ","
-    // 	       << log->tail_leaves
-    // 	       << std::endl;
+    // std::cout << log->from_addr << ","
+    // 	      << log->to_addr << ","
+    // 	      << log->packet_id << ","
+    // 	      << log->next_hop_id << ","
+    // 	      << log->arr_time << ","
+    // 	      << log->head_leaves << ","
+    // 	      << log->tail_leaves
+    // 	      << std::endl;
+    
+    delete log;
   }
 
 }

@@ -268,6 +268,7 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
                            ep->credit_handler(injector_port));
       ep->connect_output(inj_params, injector_port, switch_port,
                          injsw->payload_handler(switch_port));
+      //std::cout << "Node " << ep_id << ":" << injector_port << " to switch " << injaddr << ":" << switch_port << std::endl;
     }
 
 
@@ -281,6 +282,7 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
                            ep->payload_handler(ejector_port));
       ep->connect_input(inj_params, switch_port, ejector_port,
                         ejsw->credit_handler(switch_port));
+      //std::cout << "Switch " << injaddr << ":" << switch_port << " to Node " << ep_id << ":" << ejector_port << std::endl;
     }
   }
 }
@@ -452,6 +454,9 @@ interconnect::connect_switches(sprockit::sim_parameters* switch_params)
                             conn.src_outport,
                             conn.dst_inport,
                             src_sw->credit_handler(conn.src_outport));
+
+      //std::cout << "Switch " << src << ":" << conn.src_outport << " to switch " << conn.dst << ":" << conn.dst_inport << std::endl;
+      //std::cout << "Switch " << topology_->switch_label(src) << ":" << conn.src_outport << " to switch " << topology_->switch_label(conn.dst) << ":" << conn.dst_inport << std::endl;
     }
   }
 

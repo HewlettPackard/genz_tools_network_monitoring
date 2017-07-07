@@ -187,7 +187,7 @@ class pisces_payload :
     get_id() {
     return id_;
   }
-
+  
  protected:
   pisces_payload(){} //for serialization
 

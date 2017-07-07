@@ -19,11 +19,11 @@ namespace sstmac {
       logger << log->from_addr << ","
 	     << log->to_addr << ","
 	     << log->packet_id << ","
-	     << log->next_hop_id << ","
-	     << log->next_hop_type << ","
+	     << log->out_port << ","
+	     << log->next_hop_port << ","
 	     << log->arr_time << ","
-	     << log->head_leaves << ","
-	     << log->tail_leaves
+	     << (log->head_leaves != 0 ? std::to_string(log->head_leaves) : " ") << ","
+	     << (log->tail_leaves != 0 ? std::to_string(log->tail_leaves) : " ")
 	     << std::endl;
     }
   }

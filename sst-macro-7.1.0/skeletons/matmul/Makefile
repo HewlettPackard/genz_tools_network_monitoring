@@ -27,7 +27,7 @@ $(TARGET): $(OBJ)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean: 
-	rm -f $(TARGET) $(OBJ) 
+	rm -f $(TARGET) $(OBJ) *.log *~
 
 install: $(TARGET)
 	cp $< $(PREFIX)/bin

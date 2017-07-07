@@ -58,6 +58,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/keyword_registration.h>
 #include <stddef.h>
 
+#define IJ_PORT 0
+
 RegisterNamespaces("congestion_delays", "congestion_matrix");
 
 namespace sstmac {
@@ -182,6 +184,9 @@ pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bo
                                                        is_tail ? msg : nullptr);
   payload->set_id(packet_ctr_++);
   payload->set_pm_monitor(pm_monitor);
+  routable* rtbl = payload->interface<routable>();
+  routable::path& path = rtbl->current_path();
+  path.outport = IJ_PORT;
 
   return inj_buffer_->handle_payload(payload);
 }
@@ -197,7 +202,7 @@ void
 pisces_packetizer::set_output(sprockit::sim_parameters* params,
                               int inj_port, event_handler* handler)
 {
-  inj_buffer_->set_output(params, 0, inj_port, handler);
+  inj_buffer_->set_output(params, IJ_PORT, inj_port, handler);
 }
 
 void
@@ -217,16 +222,16 @@ pisces_simple_packetizer::recv_packet(event* ev)
 
   if (pkt->is_pm_monitor()) {
     if (logger_ != NULL) {
-      log_info* log = new log_info();
-      log->from_addr = pkt->fromaddr();
-      log->to_addr = pkt->toaddr();
-      log->packet_id = pkt->get_id();
-      log->next_hop_id = pkt->toaddr();
-      log->next_hop_type = pkt->toaddr();
-      log->arr_time = pkt->arrival().sec();
-      log->head_leaves =  0;
-      log->tail_leaves = 0;
-      logger_->recv(log);
+      log_info log;// = new log_info();
+      log.from_addr = pkt->fromaddr();
+      log.to_addr = pkt->toaddr();
+      log.packet_id = pkt->get_id();
+      //log->next_hop_id = pkt->toaddr();
+      //log->next_hop_type = pkt->toaddr();
+      log.arr_time = pkt->arrival().sec();
+      log.head_leaves =  0;
+      log.tail_leaves = 0;
+      logger_->recv(&log);
     }
   }
   
@@ -247,16 +252,16 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
 
   if (pkt->is_pm_monitor()) {
     if (logger_ != NULL) {
-      log_info* log = new log_info();
-      log->from_addr = pkt->fromaddr();
-      log->to_addr = pkt->toaddr();
-      log->packet_id = pkt->get_id();
-      log->next_hop_id = pkt->toaddr();
-      log->next_hop_type = pkt->toaddr();
-      log->arr_time = pkt->arrival().sec();
-      log->head_leaves =  0;
-      log->tail_leaves = 0;
-      logger_->recv(log);
+      log_info log;
+      log.from_addr = pkt->fromaddr();
+      log.to_addr = pkt->toaddr();
+      log.packet_id = pkt->get_id();
+      log.out_port = 0;
+      log.next_hop_port = 0;
+      log.arr_time = pkt->arrival().sec();
+      log.head_leaves =  0;
+      log.tail_leaves = 0;
+      logger_->recv(&log);
     }
   }
   

@@ -10,8 +10,8 @@ namespace sstmac {
       node_id from_addr;
       node_id to_addr;
       uint64_t packet_id;
-      uint32_t next_hop_id;
-      uint32_t next_hop_type;
+      uint32_t out_port;
+      uint32_t next_hop_port;
       double arr_time;
       double head_leaves;
       double tail_leaves;

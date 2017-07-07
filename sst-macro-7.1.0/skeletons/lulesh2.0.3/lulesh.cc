@@ -2490,11 +2490,11 @@ void LagrangeLeapFrog(Domain& domain)
             domain.sizeX() + 1, domain.sizeY() + 1, domain.sizeZ() + 1,
             false, false) ;
 #endif
-#endif   
+#endif
 
    CalcTimeConstraintsForElems(domain);
 
-#if USE_MPI   
+#if USE_MPI
 #ifdef SEDOV_SYNC_POS_VEL_LATE
    CommSyncPosVel(domain) ;
 #endif
