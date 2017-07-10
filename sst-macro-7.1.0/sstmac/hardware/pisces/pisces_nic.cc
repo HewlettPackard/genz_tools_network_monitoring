@@ -57,6 +57,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/keyword_registration.h>
 
 #include <sstmac/hardware/common/monitor_logger.h>
+#include <sstmac/hardware/common/log_info.h>
 
 #include <stddef.h>
 
@@ -86,7 +87,7 @@ pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent) :
 
   std::stringstream ss;
   ss << "nic_" << addr() << ".log";
-  packetizer_->set_logger(new monitor_logger(ss.str()));
+  packetizer_->set_logger(new monitor_logger<struct log_info>(ss.str()));
 
   //make port 0 a copy of the injection params
   sprockit::sim_parameters* port0_params = params->get_optional_namespace("port0");

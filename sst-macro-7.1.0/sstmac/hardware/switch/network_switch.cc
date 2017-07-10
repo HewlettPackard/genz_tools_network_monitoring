@@ -65,9 +65,7 @@ namespace sstmac {
 namespace hw {
 
 network_switch::~network_switch()
-{
-  switch_log.close();
-}
+{}
 
 
 network_switch::network_switch(sprockit::sim_parameters *params, uint64_t id, event_manager *mgr,
@@ -81,7 +79,7 @@ network_switch::network_switch(sprockit::sim_parameters *params, uint64_t id, ev
 
   std::stringstream ss;
   ss << "switch_" << addr() << ".log";
-  logger_ = new monitor_logger(ss.str());
+  logger_ = new monitor_logger<struct log_info>(ss.str());
 }
 
 void

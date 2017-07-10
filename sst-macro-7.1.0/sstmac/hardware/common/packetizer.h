@@ -101,7 +101,7 @@ class packetizer :
   virtual link_handler* new_payload_handler() const = 0;
   virtual link_handler* new_credit_handler() const = 0;
 
-  void set_logger(monitor_logger* logger) {
+  void set_logger(monitor_logger<log_info>* logger) {
     logger_ = logger;
   }
 
@@ -140,7 +140,7 @@ class packetizer :
 
   //monitored_connectable_subcomponent* parent_component;
 
-  monitor_logger* logger_;
+  monitor_logger<struct log_info>* logger_;
 
   /*Packet counter has to be atomic  when simulating real hardware. But here since there is just 1 packetizer non atomic updates to packet_ctr is sufficient.*/
   uint64_t packet_ctr_ = 0;

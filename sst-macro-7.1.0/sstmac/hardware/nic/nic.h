@@ -61,9 +61,6 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/debug.h>
 #include <sprockit/factories/factory.h>
 
-#include <sstmac/hardware/common/monitor_logger.h>
-#include <sstmac/hardware/nic/nic_log_info.h>
-
 DeclareDebugSlot(nic);
 
 #define nic_debug(...) \

@@ -59,6 +59,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/sst_core/integrated_component.h>
 #endif
 #include <sstmac/hardware/common/monitor_logger.h>
+#include <sstmac/hardware/common/log_info.h>
 
 #include <vector>
 
@@ -117,8 +118,7 @@ class network_switch :
 
   switch_id my_addr_;
   topology* top_;
-  std::ofstream switch_log;
-  monitor_logger* logger_;
+  monitor_logger<struct log_info>* logger_;
 };
 
 

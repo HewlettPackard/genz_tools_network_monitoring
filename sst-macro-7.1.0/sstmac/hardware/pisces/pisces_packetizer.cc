@@ -222,12 +222,12 @@ pisces_simple_packetizer::recv_packet(event* ev)
 
   if (pkt->is_pm_monitor()) {
     if (logger_ != NULL) {
-      log_info log;// = new log_info();
+      log_info log;
       log.from_addr = pkt->fromaddr();
       log.to_addr = pkt->toaddr();
       log.packet_id = pkt->get_id();
-      //log->next_hop_id = pkt->toaddr();
-      //log->next_hop_type = pkt->toaddr();
+      log.out_port = 0;
+      log.next_hop_port = 0;
       log.arr_time = pkt->arrival().sec();
       log.head_leaves =  0;
       log.tail_leaves = 0;

@@ -114,7 +114,6 @@ libsstmac_hw_la_SOURCES =  \
   common/packetizer.cc \
   common/param_expander.cc \
   common/recv_cq.cc \
-  common/monitor_logger.cc \
   memory/memory_model.cc \
   nic/netlink.cc \
   nic/nic.cc \
