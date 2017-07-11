@@ -66,16 +66,6 @@ class packet :
     return pm_monitor_;
   }
 
-  void
-    set_next_hop_id(uint64_t id) {
-    next_hop_id_ = id;
-  }
-  
-  uint64_t
-    get_next_hop_id() {
-    return next_hop_id_;
-  }  
-
  protected:
   packet() : orig_(nullptr) {}
 
@@ -92,7 +82,6 @@ class packet :
 
   bool pm_monitor_;
 
-  uint64_t next_hop_id_;  
 };
 
 

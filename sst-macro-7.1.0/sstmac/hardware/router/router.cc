@@ -120,7 +120,6 @@ router::route(packet *pkt)
                pkt->to_string().c_str(), sid, path.outport);
     route_to_switch(sid, path);
   }
-  pkt->set_next_hop_id(sid);
 }
 
 routing::algorithm_t
