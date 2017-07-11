@@ -97,3 +97,4 @@ docs/manual/manual.toc
 *.pyc
 
 sstmac_repo.h
+build
