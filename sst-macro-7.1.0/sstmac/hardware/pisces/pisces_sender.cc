@@ -219,6 +219,7 @@ pisces_sender::send(
     log  = new log_info();
     log->from_addr = pkt->fromaddr();
     log->to_addr = pkt->toaddr();
+    log->message_id = pkt->flow_id();
     log->packet_id = pkt->get_id();
     log->out_port = pkt->next_port();
     log->next_hop_port = pkt->inport();

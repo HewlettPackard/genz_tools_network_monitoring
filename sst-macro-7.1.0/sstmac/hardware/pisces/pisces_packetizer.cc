@@ -225,6 +225,7 @@ pisces_simple_packetizer::recv_packet(event* ev)
       log_info log;
       log.from_addr = pkt->fromaddr();
       log.to_addr = pkt->toaddr();
+      log.message_id = pkt->flow_id();
       log.packet_id = pkt->get_id();
       log.out_port = 0;
       log.next_hop_port = 0;
@@ -255,6 +256,7 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
       log_info log;
       log.from_addr = pkt->fromaddr();
       log.to_addr = pkt->toaddr();
+      log.message_id = pkt->flow_id();
       log.packet_id = pkt->get_id();
       log.out_port = 0;
       log.next_hop_port = 0;

@@ -25,6 +25,7 @@ namespace sstmac {
 	if (std::is_same<T, log_info>::value) {
 	  logger << ((log_info*)log)->from_addr << ","
 		 << ((log_info*)log)->to_addr << ","
+		 << ((log_info*)log)->message_id << ","
 		 << ((log_info*)log)->packet_id << ","
 		 << ((log_info*)log)->out_port << ","
 		 << ((log_info*)log)->next_hop_port << ","
