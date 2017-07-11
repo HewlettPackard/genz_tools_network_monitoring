@@ -132,6 +132,10 @@ node::node(sprockit::sim_parameters* params,
     job_launcher_ =   job_launcher::factory::get_optional_param(
           "job_launcher", "default", params, os_);
   }
+
+  std::stringstream ss;
+  ss << "node_" << addr() << ".log";
+  logger_ = new monitor_logger<struct node_info>(ss.str());
 }
 
 link_handler*
@@ -260,6 +264,17 @@ node::send_to_nic(network_message* netmsg)
   node_debug("sending to %d", int(netmsg->toaddr()));
   netmsg->set_flow_id(allocate_unique_id());
   netmsg->put_on_wire();
+
+  if (netmsg->is_pm_monitor()) {
+    node_info log;
+    log.from_addr = netmsg->fromaddr();
+    log.to_addr = netmsg->toaddr();
+    log.message_id = netmsg->flow_id();
+    log.send_time = now().sec();
+
+    logger_->recv(&log);
+  }
+  
   nic_->inject_send(netmsg, os_);
 }
 

@@ -46,7 +46,6 @@ nobase_library_include_HEADERS = \
   common/param_expander.h \
   common/recv_cq.h \
   common/unique_id.h \
-  common/monitor_logger.h \
   pisces/packet_allocator.h \
   pisces/packet_allocator_fwd.h \
   pisces/pisces.h \

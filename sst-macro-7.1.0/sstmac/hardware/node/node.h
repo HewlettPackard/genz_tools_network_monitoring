@@ -67,6 +67,9 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/factories/factory.h>
 #include <sprockit/debug.h>
 
+#include <sstmac/hardware/common/monitor_logger.h>
+#include <sstmac/hardware/common/node_info.h>
+
 DeclareDebugSlot(node);
 #define node_debug(...) \
   debug_printf(sprockit::dbg::node, "Node %d: %s", int(addr()), sprockit::printf(__VA_ARGS__).c_str())
@@ -225,6 +228,8 @@ class node :
   nic* nic_;
   
   int nsocket_;
+
+  monitor_logger<struct node_info>* logger_;
 
  private:
   int app_refcount_;
