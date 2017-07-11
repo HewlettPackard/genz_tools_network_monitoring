@@ -64,6 +64,9 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/sim_parameters.h>
 #include <sprockit/util.h>
 
+#include <sstmac/hardware/common/monitor_logger.h>
+#include <sstmac/hardware/common/config_info.h>
+
 
 RegisterDebugSlot(interconnect);
 RegisterNamespaces("interconnect");
@@ -221,6 +224,10 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
 {
   int num_nodes = topology_->num_nodes();
   int me = rt_->me();
+
+  monitor_logger<struct config_info> inj_config_logger("inj_ep_config.log");
+  monitor_logger<struct config_info> ej_config_logger("ej_ep_config.log");
+  
   for (int nodeaddr=0; nodeaddr < num_nodes; ++nodeaddr){
     node_id netlink_id;
     int netlink_offset;
@@ -257,7 +264,7 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
     }	else {
       ep = nodes_[nodeaddr]->get_nic();
     }
-
+    
     network_switch* injsw = switches_[injaddr];
     for (int i=0; i < num_inj_ports; ++i){
       int injector_port = i;
@@ -268,10 +275,17 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
                            ep->credit_handler(injector_port));
       ep->connect_output(inj_params, injector_port, switch_port,
                          injsw->payload_handler(switch_port));
+      
+      config_info log;
+      log.from_id = ep_id;
+      log.from_port = injector_port;
+      log.to_id = injaddr;
+      log.to_port = switch_port;
+      inj_config_logger.recv(&log);
+
       //std::cout << "Node " << ep_id << ":" << injector_port << " to switch " << injaddr << ":" << switch_port << std::endl;
     }
-
-
+    
     network_switch* ejsw = switches_[ejaddr];
     for (int i=0; i < num_ej_ports; ++i){
       int ejector_port = i;
@@ -282,6 +296,14 @@ interconnect::connect_endpoints(sprockit::sim_parameters* inj_params,
                            ep->payload_handler(ejector_port));
       ep->connect_input(inj_params, switch_port, ejector_port,
                         ejsw->credit_handler(switch_port));
+
+      config_info log;
+      log.from_id = ejaddr;
+      log.from_port = switch_port;
+      log.to_id = ep_id;
+      log.to_port = ejector_port;
+      ej_config_logger.recv(&log);
+      
       //std::cout << "Switch " << injaddr << ":" << switch_port << " to Node " << ep_id << ":" << ejector_port << std::endl;
     }
   }
@@ -429,6 +451,8 @@ interconnect::connect_switches(sprockit::sim_parameters* switch_params)
     topology_->configure_individual_port_params(switch_id(0), switch_params);
   }
 
+  monitor_logger<struct config_info> switch_config_logger("switch_config.log");
+  
   for (int i=0; i < num_switches_; ++i){
     switch_id src(i);
     topology_->connected_outports(src, outports);
@@ -454,6 +478,13 @@ interconnect::connect_switches(sprockit::sim_parameters* switch_params)
                             conn.src_outport,
                             conn.dst_inport,
                             src_sw->credit_handler(conn.src_outport));
+
+      config_info log;
+      log.from_id = src;
+      log.from_port = conn.src_outport;
+      log.to_id = conn.dst;
+      log.to_port = conn.dst_inport;
+      switch_config_logger.recv(&log);
 
       //std::cout << "Switch " << src << ":" << conn.src_outport << " to switch " << conn.dst << ":" << conn.dst_inport << std::endl;
       //std::cout << "Switch " << topology_->switch_label(src) << ":" << conn.src_outport << " to switch " << topology_->switch_label(conn.dst) << ":" << conn.dst_inport << std::endl;

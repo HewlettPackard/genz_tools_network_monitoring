@@ -1,7 +1,5 @@
-#ifndef LOG_INFO_H_INCLUDED
-#define LOG_INFO_H_INCLUDED
-
-#include <sstmac/common/node_address.h>
+#ifndef CONFIG_INFO_H_INCLUDED
+#define CONFIG_INFO_H_INCLUDED
 
 namespace sstmac {
   namespace hw {
@@ -9,7 +7,7 @@ namespace sstmac {
     struct config_info {
       int from_id;
       int from_port;
-      int to_it;
+      int to_id;
       int to_port;
     };
   
