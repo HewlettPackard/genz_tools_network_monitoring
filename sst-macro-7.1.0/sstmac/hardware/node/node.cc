@@ -246,6 +246,16 @@ node::handle(event* ev)
   } else {
     node_debug("forwarding event %s to OS",
                sprockit::to_string(ev).c_str());
+    auto netmsg = static_cast<network_message*>(ev);
+    if (netmsg->is_pm_monitor()) {
+      node_info log;
+      log.from_addr = netmsg->fromaddr();
+      log.to_addr = netmsg->toaddr();
+      log.message_id = netmsg->flow_id();
+      log.send_time = now().sec();
+
+      logger_->recv(&log);
+    }    
     os_->handle_event(ev);
   }
 }
