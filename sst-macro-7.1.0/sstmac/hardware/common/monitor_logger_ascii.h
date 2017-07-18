@@ -3,6 +3,7 @@
 
 #include <sstmac/hardware/common/log_info.h>
 #include <sstmac/hardware/common/config_info.h>
+#include <sstmac/hardware/common/node_info.h>
 #include <fstream>
 #include <iostream>
 
@@ -39,6 +40,12 @@ namespace sstmac {
 		 << ((config_info*)log)->to_id << ","
 		 << ((config_info*)log)->to_port << ","
 		 << std::endl;
+	} else if (std::is_same<T, node_info>::value) {
+	  logger << ((node_info*)log)->from_addr << ","
+		 << ((node_info*)log)->to_addr << ","
+		 << ((node_info*)log)->message_id << ","
+		 << ((node_info*)log)->send_time << ","
+		 << std::endl;	  
 	}
       }
       
