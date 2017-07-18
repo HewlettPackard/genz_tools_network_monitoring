@@ -112,6 +112,16 @@ class dist_dummy_switch :
     int dst_inport,
     event_handler* handler) override;
 
+  virtual void
+  connect_log_output(
+    int src_outport,
+    int dst_inport,
+    event_handler* handler) override;
+
+  link_handler* log_credit_handler() const override {
+    return nullptr;
+  }
+  
   int
   queue_length(int port) const override {
     return 0;

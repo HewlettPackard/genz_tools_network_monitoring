@@ -70,16 +70,13 @@ network_switch::~network_switch()
 
 network_switch::network_switch(sprockit::sim_parameters *params, uint64_t id, event_manager *mgr,
                                device_id::type_t ty)
- : connectable_component(params, id,
-                         device_id(params->get_int_param("id"), ty),
-                         mgr) //no self messages for a switch
+  :  loggable(params,this),
+     connectable_component(params, id,
+			   device_id(params->get_int_param("id"), ty),
+			   mgr) //no self messages for a switch
 {
   my_addr_ = event_location().id();
   top_ = topology::static_topology(params);
-
-  std::stringstream ss;
-  ss << "switch_" << addr() << ".log";
-  logger_ = new monitor_logger<struct log_info>(ss.str());
 }
 
 void

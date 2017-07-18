@@ -79,7 +79,7 @@ namespace hw {
 
 static sprockit::need_delete_statics<nic> del_statics;
 
-nic::nic(sprockit::sim_parameters* params, node* parent) :
+  nic::nic(sprockit::sim_parameters* params, node* parent) :
   spy_num_messages_(nullptr),
   spy_bytes_(nullptr),
   hist_msg_size_(nullptr),
@@ -93,6 +93,7 @@ nic::nic(sprockit::sim_parameters* params, node* parent) :
   post_inv_bw_(0),
   post_latency_(0),
   next_free_(0),
+  loggable(params,this),
   connectable_subcomponent(parent) //no self events with NIC
 {
   event_mtl_handler_ = new_handler(this, &nic::mtl_handle);

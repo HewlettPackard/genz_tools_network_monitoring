@@ -55,8 +55,11 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/keyword_registration.h>
 #include <sstmac/hardware/topology/topology.h>
 
+#include <sstmac/hardware/pisces/pisces_log_drainer.h>
+#include <sstmac/hardware/common/log_info.h>
+
 RegisterNamespaces("switch", "router", "congestion_stats", "xbar", "link",
-                   "output_buffer");
+                   "output_buffer", "log_buffer");
 
 RegisterKeywords(
 "stats",
@@ -79,7 +82,7 @@ namespace sstmac {
 namespace hw {
 
 pisces_abstract_switch::pisces_abstract_switch(
-  sprockit::sim_parameters *params, uint64_t id, event_manager *mgr) :
+					       sprockit::sim_parameters *params, uint64_t id, event_manager *mgr) :
   buf_stats_(nullptr),
   xbar_stats_(nullptr),
   router_(nullptr),
@@ -127,8 +130,8 @@ pisces_switch::pisces_switch(
   sprockit::sim_parameters* params,
   uint64_t id,
   event_manager* mgr)
-: pisces_abstract_switch(params, id, mgr),
-  xbar_(nullptr)
+  : pisces_abstract_switch(params, id, mgr),
+    xbar_(nullptr)
 {
   sprockit::sim_parameters* xbar_params = params->get_namespace("xbar");
   xbar_params->add_param_override("num_vc", router_->max_num_vc());
@@ -141,6 +144,21 @@ pisces_switch::pisces_switch(
   payload_handler_ = new_handler(this, &pisces_switch::handle_payload);
   ack_handler_ = new_handler(this, &pisces_switch::handle_credit);
 #endif
+
+  drainer_ = new pisces_log_drainer(params, this);
+  std::stringstream ss;
+  ss << "switch_" << addr() << ".log";
+  drainer_->init(ss.str());
+
+  sprockit::sim_parameters* log_buf_params = params->get_namespace("log_buffer");
+  pisces_sender::configure_payload_port_latency(log_buf_params);
+  log_buffer_ = new pisces_log_buffer(log_buf_params, this);
+  log_ack_handler_ = new_handler(this, &pisces_switch::handle_log_credit);
+
+  this->connect_log_output(loggable::any_port, loggable::any_port,
+  			   drainer_->payload_handler(loggable::any_port));
+  drainer_->connect_input(NULL,loggable::any_port, loggable::any_port,
+  			  this->log_credit_handler());  
 }
 
 pisces_switch::~pisces_switch()
@@ -203,6 +221,15 @@ pisces_switch::connect_input(
 }
 
 void
+pisces_switch::connect_log_output(
+  int src_outport,
+  int dst_inport,
+  event_handler* mod)
+{
+  log_buffer_->set_output(NULL,src_outport, dst_inport, mod);
+}
+  
+void
 pisces_switch::compatibility_check() const
 {
   router_->compatibility_check();
@@ -236,6 +263,12 @@ pisces_switch::handle_credit(event *ev)
 }
 
 void
+pisces_switch::handle_log_credit(event *ev)
+{
+  log_buffer_->handle_credit(ev);
+}
+  
+void
 pisces_switch::handle_payload(event *ev)
 {  
   pisces_payload* payload = static_cast<pisces_payload*>(ev);
@@ -245,9 +278,12 @@ pisces_switch::handle_payload(event *ev)
   log_info* log = xbar_->handle_payload(payload);
 
   if (log) {
-    if (logger_ != NULL) {
-      logger_->recv(log);
-    }
+    pisces_log_packet* log_pkt = new pisces_log_packet(log);
+    log_buffer_->handle_payload(log_pkt);
+    
+    // if (logger_ != NULL) {
+    //   logger_->recv(log);
+    // }
     // std::cout << log->from_addr << ","
     // 	      << log->to_addr << ","
     // 	      << log->packet_id << ","
@@ -257,7 +293,7 @@ pisces_switch::handle_payload(event *ev)
     // 	      << log->tail_leaves
     // 	      << std::endl;
     
-    delete log;
+    //delete log;
   }
 
 }
@@ -279,6 +315,12 @@ pisces_switch::credit_handler(int port) const
 #endif
 }
 
+link_handler*
+pisces_switch::log_credit_handler() const
+{
+  return log_ack_handler_;
+}
+  
 link_handler*
 pisces_switch::payload_handler(int port) const
 {

@@ -146,6 +146,8 @@ logp_switch::connect_output(sprockit::sim_parameters *params,
   }
 }
 
+  
+
 void
 logp_switch::connect_input(sprockit::sim_parameters *params,
                               int src_outport, int dst_inport,
@@ -154,6 +156,13 @@ logp_switch::connect_input(sprockit::sim_parameters *params,
   //no-op
 }
 
+void
+logp_switch::connect_log_output(int src_outport, int dst_inport,
+                              event_handler *mod)
+{
+  //no-op
+}
+  
 void
 logp_switch::incoming_message(message* msg, node_id src, node_id dst)
 {

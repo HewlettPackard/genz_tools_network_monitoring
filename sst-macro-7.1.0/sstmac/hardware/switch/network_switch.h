@@ -51,6 +51,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/debug.h>
 
 #include <sstmac/hardware/common/connection.h>
+#include <sstmac/hardware/common/loggable.h>
 #include <sstmac/hardware/router/router_fwd.h>
 #include <sstmac/hardware/topology/topology_fwd.h>
 #include <sprockit/sim_parameters_fwd.h>
@@ -58,8 +59,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #if SSTMAC_INTEGRATED_SST_CORE
 #include <sstmac/sst_core/integrated_component.h>
 #endif
-#include <sstmac/hardware/common/monitor_logger.h>
-#include <sstmac/hardware/common/log_info.h>
+//#include <sstmac/hardware/common/monitor_logger.h>
 
 #include <vector>
 
@@ -77,7 +77,8 @@ namespace hw {
  * The network switch performs both routing computations and congestion modeling.
  */
 class network_switch :
-  public connectable_component
+  public connectable_component,
+  public loggable
 {
   DeclareFactory(network_switch,uint64_t,event_manager*)
  public:
@@ -118,7 +119,7 @@ class network_switch :
 
   switch_id my_addr_;
   topology* top_;
-  monitor_logger<struct log_info>* logger_;
+  //monitor_logger<struct log_info>* logger_;
 };
 
 

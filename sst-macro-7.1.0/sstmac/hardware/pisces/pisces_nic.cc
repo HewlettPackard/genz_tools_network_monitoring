@@ -56,7 +56,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/sim_parameters.h>
 #include <sprockit/keyword_registration.h>
 
-#include <sstmac/hardware/common/monitor_logger.h>
+#include <sstmac/hardware/pisces/pisces_log_drainer.h>
 #include <sstmac/hardware/common/log_info.h>
 
 #include <stddef.h>
@@ -73,10 +73,10 @@ namespace hw {
 
 const int pisces_netlink::really_big_buffer = 1<<30;
 
-pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent) :
-  nic(params, parent),
-  packetizer_(nullptr)
-{
+  pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent):
+    nic(params, parent),
+    packetizer_(nullptr)
+{    
   sprockit::sim_parameters* inj_params = params->get_namespace("injection");
 
 
@@ -84,10 +84,6 @@ pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent) :
                                               inj_params, parent);
   packetizer_->setArrivalNotify(this);
   packetizer_->setInjectionAcker(mtl_handler());
-
-  std::stringstream ss;
-  ss << "nic_" << addr() << ".log";
-  packetizer_->set_logger(new monitor_logger<struct log_info>(ss.str()));
 
   //make port 0 a copy of the injection params
   sprockit::sim_parameters* port0_params = params->get_optional_namespace("port0");
@@ -97,6 +93,19 @@ pisces_nic::pisces_nic(sprockit::sim_parameters* params, node* parent) :
   ack_handler_ = packetizer_->new_credit_handler();
   payload_handler_ = packetizer_->new_payload_handler();
 #endif
+
+  drainer_ = new pisces_log_drainer(params, this);
+  std::stringstream ss;
+  ss << "nic_" << addr() << ".log";
+  drainer_->init(ss.str());
+  
+  pisces_packetizer* packer = safe_cast(pisces_packetizer, packetizer_);
+  log_ack_handler_ = packer->new_log_credit_handler();
+
+  this->connect_log_output(loggable::any_port, loggable::any_port,
+			   drainer_->payload_handler(loggable::any_port));
+  drainer_->connect_input(NULL,loggable::any_port, loggable::any_port,
+			  this->log_credit_handler());
 }
 
 void
@@ -121,6 +130,7 @@ pisces_nic::~pisces_nic() throw ()
   delete ack_handler_;
   delete payload_handler_;
 #endif
+  delete log_ack_handler_;
 }
 
 link_handler*
@@ -152,6 +162,12 @@ pisces_nic::credit_handler(int port) const
 #endif
 }
 
+link_handler*
+pisces_nic::log_credit_handler() const
+{
+  return log_ack_handler_;
+}
+  
 void
 pisces_nic::connect_output(
   sprockit::sim_parameters* params,
@@ -162,7 +178,6 @@ pisces_nic::connect_output(
   if (src_outport == Injection){
     pisces_packetizer* packer = safe_cast(pisces_packetizer, packetizer_);
     packer->set_output(params, dst_inport, mod);
-    //std::cout << "NIC: " << addr() << ":" << dst_inport << "," << mod->to_string() << std::endl;
   } else if (src_outport == LogP){
     logp_switch_ = mod;
   } else {
@@ -180,6 +195,16 @@ pisces_nic::connect_input(
   if (!mod) abort();
   pisces_packetizer* packer = safe_cast(pisces_packetizer, packetizer_);
   packer->set_input(params, src_outport, mod);
+}
+
+void
+pisces_nic::connect_log_output(
+  int src_outport,
+  int dst_inport,
+  event_handler* mod)
+{
+  pisces_packetizer* packer = safe_cast(pisces_packetizer, packetizer_);
+  packer->set_log_output(dst_inport, mod);
 }
 
 void

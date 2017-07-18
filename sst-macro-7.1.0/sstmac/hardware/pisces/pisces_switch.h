@@ -109,11 +109,20 @@ class pisces_switch :
     int dst_inport,
     event_handler* mod) override;
 
+  virtual void connect_log_output(
+    int src_outport,
+    int dst_inport,
+    event_handler* mod) override;
+
+  link_handler* log_credit_handler() const override;
+  
   link_handler* credit_handler(int port) const override;
 
   link_handler* payload_handler(int port) const override;
 
   void handle_credit(event* ev);
+
+  void handle_log_credit(event* ev);
 
   void handle_payload(event* ev);
 
@@ -138,6 +147,9 @@ class pisces_switch :
   std::vector<pisces_sender*> out_buffers_;
 
   pisces_crossbar* xbar_;
+
+  pisces_log_buffer* log_buffer_;
+  link_handler* log_ack_handler_;
 
 #if !SSTMAC_INTEGRATED_SST_CORE
   link_handler* ack_handler_;

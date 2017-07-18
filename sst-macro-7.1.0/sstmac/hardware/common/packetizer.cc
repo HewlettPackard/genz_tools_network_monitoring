@@ -73,8 +73,6 @@ namespace sstmac {
 
     void
     packetizer::sendWhatYouCan(int vn){
-      //std::vector<log_info*> log_acc;
-      //log_acc.reserve(MAX_LOGS_PER_MESSAGE);
       std::list<pending_send>& pending = pending_[vn];
       while (!pending.empty()){
 	pending_send& next = pending.front();
@@ -83,18 +81,11 @@ namespace sstmac {
 	  long num_bytes = std::min(next.bytes_left, long(packet_size_));
 	  if (!spaceToSend(vn, num_bytes*8)){
 	    pkt_debug("no space to send %d bytes on vn %d", num_bytes, vn);
-	    return;// log_acc;
+	    return;
 	  }
 	  pkt_debug("injecting %d bytes on vn %d", num_bytes, vn);
 	  log_info* log = inject(vn, num_bytes, next.offset, next.msg,
 				 pm_mark_packet(next, num_bytes, next.offset));
-
-	  if (log) {
-	    if (logger_ != NULL) {
-	      logger_->recv(log);
-	    }
-	    delete log;
-	  }
 
 	  next.offset += num_bytes;
 	  next.bytes_left -= num_bytes;
@@ -108,7 +99,6 @@ namespace sstmac {
 	//the entire packet sent
 	pending.pop_front();
       }
-      //return log_acc;
     }
 
     void

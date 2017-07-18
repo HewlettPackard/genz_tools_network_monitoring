@@ -42,93 +42,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Questions? Contact sst-macro-help@sandia.gov
 */
 
-#ifndef SIMPLE_NIC_H
-#define SIMPLE_NIC_H
+#ifndef SSTMAC_HARDWARE_PISCES_LOG_DRAINER_H_INCLUDED
+#define SSTMAC_HARDWARE_PISCES_LOG_DRAINER_H_INCLUDED
 
-#include <sstmac/hardware/nic/nic.h>
+#include <sstmac/hardware/drainer/log_drainer.h>
 
 namespace sstmac {
 namespace hw {
 
-/**
- * @brief Implements a NIC that does very basic congestion modeling
- *        using the LogGP model.  See "LogGP in Theory and Practice"
- *        by Hoefler and Schneider.
- */
-class logp_nic :
-  public nic
+class pisces_log_drainer :
+  public log_drainer
 {
-  FactoryRegister("logP | simple | LogP | logp", nic, logp_nic,
-              "implements a nic that models messages via a simple latency/bandwidth injection delay")
  public:
-  logp_nic(sprockit::sim_parameters* params, node* parent);
-
-  /// Goodbye.
-  virtual ~logp_nic();
-
-  void handle(event *ev);
-
-  virtual void
-  connect_output(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  virtual void
-  connect_input(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  virtual void
-  connect_log_output(
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  link_handler* log_credit_handler() const override {
-    return nullptr; //should never handle acks
-  }
-  
-  virtual std::string
-  to_string() const override {
-    return "simple nic";
-  }
-
-  link_handler*
-  credit_handler(int port) const override {
-    return nullptr; //should never handle acks
-  }
-
-  link_handler*
-  payload_handler(int port) const override;
-
- protected:
-  /**
-    Start the message sending and inject it into the network
-    @param payload The network message to send
-  */
-  virtual void
-  do_send(network_message* msg) override;
-
- protected:
-  double inj_bw_inverse_;
-
-  timestamp inj_lat_;
-
-  timestamp next_free_;
-
-  event_handler* ack_handler_;
-
-#if !SSTMAC_INTEGRATED_SST_CORE
-  link_handler* payload_handler_;
-#endif
-
+  pisces_log_drainer(sprockit::sim_parameters* params,event_scheduler* parent);
+  ~pisces_log_drainer();
+  void handle_payload(event* ev) override;
 };
 
 }
-} // end of namespace sstmac.
+}
 
-#endif // SIMPLE_NIC_H
+#endif

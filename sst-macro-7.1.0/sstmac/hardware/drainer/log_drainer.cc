@@ -42,93 +42,79 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Questions? Contact sst-macro-help@sandia.gov
 */
 
-#ifndef SIMPLE_NIC_H
-#define SIMPLE_NIC_H
+#include <sstmac/hardware/drainer/log_drainer.h>
+#include <sprockit/util.h>
+#include <sprockit/sim_parameters.h>
+#include <sprockit/keyword_registration.h>
 
-#include <sstmac/hardware/nic/nic.h>
+RegisterDebugSlot(log_drainer)
+
+RegisterKeywords("drainer_name");
+RegisterNamespaces("drainer");
 
 namespace sstmac {
-namespace hw {
+  namespace hw {
 
-/**
- * @brief Implements a NIC that does very basic congestion modeling
- *        using the LogGP model.  See "LogGP in Theory and Practice"
- *        by Hoefler and Schneider.
- */
-class logp_nic :
-  public nic
-{
-  FactoryRegister("logP | simple | LogP | logp", nic, logp_nic,
-              "implements a nic that models messages via a simple latency/bandwidth injection delay")
- public:
-  logp_nic(sprockit::sim_parameters* params, node* parent);
+    log_drainer::~log_drainer()
+    {
+      delete logger_;
+    }
 
-  /// Goodbye.
-  virtual ~logp_nic();
+    log_drainer::log_drainer(sprockit::sim_parameters* params, event_scheduler* parent)
+      : connectable_subcomponent(parent)
+    {
+      if (!params->has_param("credit_latency")){
+	params->add_param_override("credit_latency", "0ns");
+      }
+      credit_lat_ = params->get_time_param("credit_latency");
+    }
 
-  void handle(event *ev);
+    void
+    log_drainer::init(std::string log_name)
+    {
+      logger_ = new monitor_logger<log_info>(log_name);
+    }
+    
+    void
+    log_drainer::connect_output(
+				sprockit::sim_parameters* port_params,
+				int src_outport,
+				int dst_inport,
+				event_handler* mod)
+    {
+      
+    }
+    
+    void
+    log_drainer::connect_input(
+			       sprockit::sim_parameters* port_params,
+			       int src_outport,
+			       int dst_inport,
+			       event_handler* mod)
+    {
+      src_outport_ = src_outport;
+      src_handler_ = mod;
+    }
+    
+    std::string
+    log_drainer::to_string() const
+    {
+      //return sprockit::printf("Log drainer %d", int(my_addr_));
+      return sprockit::printf("Log drainer");
+    }
 
-  virtual void
-  connect_output(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
+    link_handler*
+    log_drainer::credit_handler(int port) const
+    {
+      return NULL; //SHOULD NEVER BE EXECUTED
+    }
 
-  virtual void
-  connect_input(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  virtual void
-  connect_log_output(
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  link_handler* log_credit_handler() const override {
-    return nullptr; //should never handle acks
-  }
+    link_handler*
+    log_drainer::payload_handler(int port) const
+    {
+      return payload_handler_;
+    }
+    
   
-  virtual std::string
-  to_string() const override {
-    return "simple nic";
   }
-
-  link_handler*
-  credit_handler(int port) const override {
-    return nullptr; //should never handle acks
-  }
-
-  link_handler*
-  payload_handler(int port) const override;
-
- protected:
-  /**
-    Start the message sending and inject it into the network
-    @param payload The network message to send
-  */
-  virtual void
-  do_send(network_message* msg) override;
-
- protected:
-  double inj_bw_inverse_;
-
-  timestamp inj_lat_;
-
-  timestamp next_free_;
-
-  event_handler* ack_handler_;
-
-#if !SSTMAC_INTEGRATED_SST_CORE
-  link_handler* payload_handler_;
-#endif
-
-};
-
 }
-} // end of namespace sstmac.
-
-#endif // SIMPLE_NIC_H

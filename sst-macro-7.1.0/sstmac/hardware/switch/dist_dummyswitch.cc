@@ -70,6 +70,14 @@ dist_dummy_switch::connect_output(
 }
 
 void
+dist_dummy_switch::connect_log_output(
+  int src_outport,
+  int dst_inport,
+  event_handler* comp)
+{
+}
+
+void
 dist_dummy_switch::handle(event* ev)
 {
   spkt_throw(sprockit::illformed_error,

@@ -462,7 +462,69 @@ pisces_injection_buffer::queue_length() const
   return std::max(0L, total_bytes_pending);
 }
 
+  pisces_log_buffer::pisces_log_buffer(
+					  sprockit::sim_parameters* params,
+					  event_scheduler* parent)
+    : pisces_buffer(params, parent),
+      credits_(1),
+      head(0),
+      tail(0),
+      //packet_size_(params->get_byte_length_param("mtu")),
+      payload_handler_(nullptr)
+  {}
 
+  pisces_log_buffer::~pisces_log_buffer()
+  {
+    if (payload_handler_) delete payload_handler_;
+  }
+
+  void
+  pisces_log_buffer::handle_credit(event* ev)
+  {
+    pisces_credit* credit = static_cast<pisces_credit*>(ev);
+    credits_ += credit->num_credits();
+
+    while (credits_ && (queue_length() != 0)) {
+      pisces_log_packet* payload = log_buffer_[head];
+      //assert(payload != NULL);
+      send(NULL, payload, input_, output_);
+      sz--;
+      credits_ = credits_ - 1;
+      head = (head + 1) % LOG_BUFFER_SIZE;
+    }
+  }
+
+  event_handler*
+  pisces_log_buffer::payload_handler()
+  {
+    if (!payload_handler_){
+      payload_handler_ = new_handler(this, &pisces_log_buffer::handle_payload);
+    }
+    return payload_handler_;
+  }
+
+  log_info*
+  pisces_log_buffer::handle_payload(event* ev)
+  {
+    auto pkt = static_cast<pisces_log_packet*>(ev);
+    if(credits_ != 0) {
+      //If credits available, send immediately
+      send(NULL, pkt, input_, output_);
+      credits_ = credits_ - 1;
+    } else {
+      //Add to the queue
+      log_buffer_[tail] = pkt;
+      tail = (tail + 1) % LOG_BUFFER_SIZE;
+      sz++;
+    }
+    return NULL;
+  }
+
+  int
+  pisces_log_buffer::queue_length() const
+  {
+    return sz;
+  }
 
 }
 }

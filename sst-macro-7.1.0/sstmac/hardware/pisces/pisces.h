@@ -52,6 +52,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/factories/factory.h>
 #include <sprockit/debug.h>
 
+#include <sstmac/hardware/common/log_info.h>
+
 DeclareDebugSlot(pisces)
 DeclareDebugSlot(pisces_queue)
 DeclareDebugSlot(pisces_config)
@@ -385,9 +387,22 @@ class pisces_credit :
   int num_credits_;
   int port_;
   int vc_;
-
-
 };
+
+ class pisces_log_packet: public pisces_default_packet {
+ public:
+   log_info* get_log() {
+     return log_;
+   }
+
+ pisces_log_packet(log_info* log) :
+   log_(log), pisces_default_packet() {
+
+   }
+   
+ protected:
+   log_info* log_;
+ };
 
 }
 }

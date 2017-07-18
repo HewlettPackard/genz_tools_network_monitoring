@@ -63,6 +63,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sprockit/output.h>
 #include <sprockit/sim_parameters.h>
 #include <sprockit/util.h>
+#include <sstmac/hardware/drainer/log_drainer.h>
 
 #include <sstmac/hardware/common/monitor_logger.h>
 #include <sstmac/hardware/common/config_info.h>
@@ -184,6 +185,7 @@ interconnect::interconnect(sprockit::sim_parameters *params, event_manager *mgr,
     } else {
       connect_endpoints(nlink_inj_params, ej_params);
     }
+    //connect_drainers();
   }
 
   sprockit::sim_parameters* link_params = switch_params->get_namespace("link");
@@ -430,6 +432,44 @@ interconnect::build_switches(sprockit::sim_parameters* switch_params,
   }
 }
 
+void
+interconnect::build_drainers(sprockit::sim_parameters* drainer_params,
+                             event_manager* mgr)
+{
+  // uint32_t num_drainers = num_switches_ + num_nodes_;
+  
+  // for (uint32_t i=0; i < num_drainers; ++i){
+
+  //   drainer_params->add_param_override("id", int(i));
+  //   int thread = partition_->thread_for_switch(i);
+  //   event_manager* thread_mgr = mgr->ev_man_for_thread(thread);
+  //   drainers_[i] = new log_drainer(drainer_params, i, thread_mgr,device_id::null);
+  // }
+}
+
+void
+interconnect::connect_drainers()
+{
+  // int drainer_id = 0;
+  // for (int i=0; i < num_nodes_; ++i,drainer_id++) {
+  //   node* src_node = nodes_[i];
+  //   log_drainer* dest_dr = drainers_[drainer_id];
+
+  //   src_node->connect_output(NULL,loggable::any_port, loggable::any_port, dest_dr->payload_handler(loggable::any_port));
+
+  //   dest_dr->connect_input(NULL,loggable::any_port, loggable::any_port, src_node->log_credit_handler());
+  // }
+
+  // for (int i=0; i < num_switches_; ++i,drainer_id++) {
+  //   network_switch* src_sw = switches_[i];
+  //   log_drainer* dest_dr = drainers_[drainer_id];
+
+  //   src_sw->connect_output(NULL,loggable::any_port, loggable::any_port, dest_dr->payload_handler(loggable::any_port));
+
+  //   dest_dr->connect_input(NULL,loggable::any_port, loggable::any_port, src_sw->log_credit_handler());
+  // }
+}
+  
 void
 interconnect::connect_switches(sprockit::sim_parameters* switch_params)
 {

@@ -1,7 +1,6 @@
 #ifndef MONITOR_LOGGER_H_INCLUDED
 #define MONITOR_LOGGER_H_INCLUDED
 
-#include <sstmac/hardware/common/log_info.h>
 #include <fstream>
 #include <iostream>
 #include <stdio.h>

@@ -75,6 +75,8 @@ class pisces_packetizer :
 
   bool spaceToSend(int vn, int num_bits) override;
 
+  virtual void sendWhatYouCan(int vn) override;
+
   log_info* inject(int vn, long bytes, long byte_offset, message *payload, bool pm_monitor) override;
 
   /**
@@ -87,7 +89,13 @@ class pisces_packetizer :
   void set_input(sprockit::sim_parameters* params,
             int port, event_handler* input);
 
+  void set_log_output(int port, event_handler* output);
+
+  link_handler* new_log_credit_handler() const;
+
   void recv_credit(event* credit);
+
+  void recv_log_credit(event* credit);
 
   /**
    * @brief recv_packet Receive new packet arriving from network.
@@ -111,7 +119,8 @@ class pisces_packetizer :
  protected:
   pisces_injection_buffer* inj_buffer_;
   pisces_eject_buffer* ej_buffer_;
-
+  pisces_log_buffer* log_buffer_;
+  
   event_handler* payload_handler_;
 
   recv_cq completion_queue_;

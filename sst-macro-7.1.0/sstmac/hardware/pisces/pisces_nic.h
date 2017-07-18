@@ -94,6 +94,13 @@ class pisces_nic :
     int dst_inport,
     event_handler* mod) override;
 
+  virtual void connect_log_output(
+    int src_outport,
+    int dst_inport,
+    event_handler* mod) override;
+
+  link_handler* log_credit_handler() const override;
+  
   link_handler* credit_handler(int port) const override;
 
   link_handler* payload_handler(int port) const override;
@@ -109,6 +116,8 @@ class pisces_nic :
   link_handler* payload_handler_;
   link_handler* ack_handler_;
 #endif
+
+  link_handler* log_ack_handler_;
 };
 
 class pisces_netlink :

@@ -99,9 +99,9 @@ pisces_packetizer::init(sprockit::sim_parameters* params, event_scheduler* paren
   pkt_allocator_ = packet_allocator::factory
       ::get_optional_param("packet_allocator", "pisces", params);
 
-
-
   payload_handler_ = new_handler(this, &pisces_packetizer::recv_packet);
+
+  log_buffer_ = new pisces_log_buffer(params, parent);
 }
 
 pisces_packetizer::~pisces_packetizer()
@@ -138,6 +138,13 @@ pisces_packetizer::new_credit_handler() const
 }
 
 link_handler*
+pisces_packetizer::new_log_credit_handler() const
+{
+  return new_handler(const_cast<pisces_packetizer*>(this),
+		     &pisces_packetizer::recv_log_credit);
+}
+  
+link_handler*
 pisces_packetizer::new_payload_handler() const
 {
 #if SSTMAC_INTEGRATED_SST_CORE
@@ -159,6 +166,12 @@ pisces_packetizer::recv_credit(event* ev)
 }
 
 void
+pisces_packetizer::recv_log_credit(event* ev)
+{
+  log_buffer_->handle_credit(ev);
+}
+  
+void
 pisces_packetizer::deadlock_check()
 {
   inj_buffer_->deadlock_check();
@@ -176,7 +189,7 @@ pisces_packetizer::spaceToSend(int vn, int num_bits)
 log_info*
 pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bool pm_monitor)
 {
-  //std::cout << "addr" << my_addr_ << std::endl;
+  //std::cout << "flow id " << msg->flow_id() << std::endl;
   bool is_tail = (byte_offset + bytes) == msg->byte_length();
   //only carry the payload if you're the tail packet
   pisces_payload* payload = pkt_allocator_->new_packet(bytes, msg->flow_id(), is_tail,
@@ -190,6 +203,46 @@ pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bo
 
   return inj_buffer_->handle_payload(payload);
 }
+
+  void
+  pisces_packetizer::sendWhatYouCan(int vn){
+    std::list<pending_send>& pending = pending_[vn];
+    while (!pending.empty()){
+      pending_send& next = pending.front();
+      long initial_offset = next.offset;
+      while (next.bytes_left){
+	long num_bytes = std::min(next.bytes_left, long(packet_size_));
+	if (!spaceToSend(vn, num_bytes*8)){
+	  debug_printf(sprockit::dbg::pisces,"no space to send %d bytes on vn %d", num_bytes, vn);
+	  return;
+	}
+	debug_printf(sprockit::dbg::pisces,"injecting %d bytes on vn %d", num_bytes, vn);
+	log_info* log = inject(vn, num_bytes, next.offset, next.msg,
+			       pm_mark_packet(next, num_bytes, next.offset));
+
+	if (log) {
+	  pisces_log_packet* log_pkt = new pisces_log_packet(log);
+	  log_buffer_->handle_payload(log_pkt);
+	  // if (logger_ != NULL) {
+	  //   logger_->recv(log);
+	  // }
+	  // delete log;
+	}
+
+	next.offset += num_bytes;
+	next.bytes_left -= num_bytes;
+      }
+      long bytes_sent = next.offset - initial_offset;
+      if (next.msg->needs_ack()){
+	timestamp time_to_send(bytes_sent * inv_bw_);
+	message* ack = next.msg->clone_ack();
+	schedule_delay(time_to_send, acker_, ack);
+      }
+      //the entire packet sent
+      pending.pop_front();
+    }
+  }
+  
 
 void
 pisces_packetizer::recv_packet_common(pisces_payload* pkt)
@@ -215,25 +268,45 @@ pisces_packetizer::set_input(sprockit::sim_parameters* params,
 }
 
 void
+pisces_packetizer::set_log_output(int inj_port, event_handler* handler)
+{
+  log_buffer_->set_output(NULL,IJ_PORT, inj_port, handler);
+}
+
+void
 pisces_simple_packetizer::recv_packet(event* ev)
 {
   pisces_payload* pkt = static_cast<pisces_payload*>(ev);
   recv_packet_common(pkt);
 
   if (pkt->is_pm_monitor()) {
-    if (logger_ != NULL) {
-      log_info log;
-      log.from_addr = pkt->fromaddr();
-      log.to_addr = pkt->toaddr();
-      log.message_id = pkt->flow_id();
-      log.packet_id = pkt->get_id();
-      log.out_port = 0;
-      log.next_hop_port = 0;
-      log.arr_time = pkt->arrival().sec();
-      log.head_leaves =  0;
-      log.tail_leaves = 0;
-      logger_->recv(&log);
-    }
+    log_info* log = new log_info();
+    log->from_addr = pkt->fromaddr();
+    log->to_addr = pkt->toaddr();
+    log->message_id = pkt->flow_id();
+    log->packet_id = pkt->get_id();
+    log->out_port = 0;
+    log->next_hop_port = 0;
+    log->arr_time = pkt->arrival().sec();
+    log->head_leaves =  0;
+    log->tail_leaves = 0;
+    
+    pisces_log_packet* log_pkt = new pisces_log_packet(log);
+    log_buffer_->handle_payload(log_pkt);    
+    
+    // if (logger_ != NULL) {
+    //   log_info log;
+    //   log.from_addr = pkt->fromaddr();
+    //   log.to_addr = pkt->toaddr();
+    //   log.message_id = pkt->flow_id();
+    //   log.packet_id = pkt->get_id();
+    //   log.out_port = 0;
+    //   log.next_hop_port = 0;
+    //   log.arr_time = pkt->arrival().sec();
+    //   log.head_leaves =  0;
+    //   log.tail_leaves = 0;
+    //   logger_->recv(&log);
+    // }
   }
   
   int vn = 0;
@@ -250,21 +323,34 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
   debug_printf(sprockit::dbg::pisces,
     "packet %s scheduled to arrive at packetizer after delay of t=%12.6es",
      pkt->to_string().c_str(), delay.sec());
-
+  
   if (pkt->is_pm_monitor()) {
-    if (logger_ != NULL) {
-      log_info log;
-      log.from_addr = pkt->fromaddr();
-      log.to_addr = pkt->toaddr();
-      log.message_id = pkt->flow_id();
-      log.packet_id = pkt->get_id();
-      log.out_port = 0;
-      log.next_hop_port = 0;
-      log.arr_time = pkt->arrival().sec();
-      log.head_leaves =  0;
-      log.tail_leaves = 0;
-      logger_->recv(&log);
-    }
+    log_info* log = new log_info();
+    log->from_addr = pkt->fromaddr();
+    log->to_addr = pkt->toaddr();
+    log->message_id = pkt->flow_id();
+    log->packet_id = pkt->get_id();
+    log->out_port = 0;
+    log->next_hop_port = 0;
+    log->arr_time = pkt->arrival().sec();
+    log->head_leaves =  0;
+    log->tail_leaves = 0;
+    
+    pisces_log_packet* log_pkt = new pisces_log_packet(log);
+    log_buffer_->handle_payload(log_pkt);    
+    // if (logger_ != NULL) {
+    //   log_info log;
+    //   log.from_addr = pkt->fromaddr();
+    //   log.to_addr = pkt->toaddr();
+    //   log.message_id = pkt->flow_id();
+    //   log.packet_id = pkt->get_id();
+    //   log.out_port = 0;
+    //   log.next_hop_port = 0;
+    //   log.arr_time = pkt->arrival().sec();
+    //   log.head_leaves =  0;
+    //   log.tail_leaves = 0;
+    //   logger_->recv(&log);
+    // }
   }
   
   send_delayed_self_event_queue(delay,

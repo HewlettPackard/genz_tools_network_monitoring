@@ -42,93 +42,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Questions? Contact sst-macro-help@sandia.gov
 */
 
-#ifndef SIMPLE_NIC_H
-#define SIMPLE_NIC_H
+// RegisterDebugSlot(log_drainer)
 
-#include <sstmac/hardware/nic/nic.h>
+// RegisterKeywords("drainer_name");
+// RegisterNamespaces("drainer");
+
+#include <sstmac/hardware/pisces/pisces_log_drainer.h>
+#include <sstmac/hardware/pisces/pisces.h>
 
 namespace sstmac {
-namespace hw {
+  namespace hw {
 
-/**
- * @brief Implements a NIC that does very basic congestion modeling
- *        using the LogGP model.  See "LogGP in Theory and Practice"
- *        by Hoefler and Schneider.
- */
-class logp_nic :
-  public nic
-{
-  FactoryRegister("logP | simple | LogP | logp", nic, logp_nic,
-              "implements a nic that models messages via a simple latency/bandwidth injection delay")
- public:
-  logp_nic(sprockit::sim_parameters* params, node* parent);
+    pisces_log_drainer::~pisces_log_drainer()
+    {
+    }
 
-  /// Goodbye.
-  virtual ~logp_nic();
+    pisces_log_drainer::pisces_log_drainer(sprockit::sim_parameters* params, event_scheduler* parent)
+      : log_drainer(params, parent)
+    {
+      payload_handler_ = new_handler(const_cast<pisces_log_drainer*>(this),
+				     &pisces_log_drainer::handle_payload);
+    }
+    
+    void
+    pisces_log_drainer::handle_payload(event *ev)
+    {
+      //First extract log from packet.
+      auto pkt = static_cast<pisces_log_packet*>(ev);
+      logger_->recv(pkt->get_log());
 
-  void handle(event *ev);
-
-  virtual void
-  connect_output(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  virtual void
-  connect_input(
-    sprockit::sim_parameters* params,
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  virtual void
-  connect_log_output(
-    int src_outport,
-    int dst_inport,
-    event_handler* handler) override;
-
-  link_handler* log_credit_handler() const override {
-    return nullptr; //should never handle acks
+      //Next send back credit
+      pisces_credit* credit = new pisces_credit(src_outport_,
+						0, pkt->num_bytes());
+      timestamp credit_departure = now();
+      
+      send_to_link(credit_departure,
+		   credit_lat_,
+		   src_handler_,
+		   credit);
+    }
   }
-  
-  virtual std::string
-  to_string() const override {
-    return "simple nic";
-  }
-
-  link_handler*
-  credit_handler(int port) const override {
-    return nullptr; //should never handle acks
-  }
-
-  link_handler*
-  payload_handler(int port) const override;
-
- protected:
-  /**
-    Start the message sending and inject it into the network
-    @param payload The network message to send
-  */
-  virtual void
-  do_send(network_message* msg) override;
-
- protected:
-  double inj_bw_inverse_;
-
-  timestamp inj_lat_;
-
-  timestamp next_free_;
-
-  event_handler* ack_handler_;
-
-#if !SSTMAC_INTEGRATED_SST_CORE
-  link_handler* payload_handler_;
-#endif
-
-};
-
 }
-} // end of namespace sstmac.
-
-#endif // SIMPLE_NIC_H

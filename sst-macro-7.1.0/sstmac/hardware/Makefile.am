@@ -62,6 +62,7 @@ nobase_library_include_HEADERS = \
   pisces/pisces_switch.h \
   pisces/pisces_tiled_switch.h \
   pisces/pisces_memory_model.h \
+  pisces/pisces_log_drainer.h \
   network/network_id.h \
   network/network_message.h \
   network/network_message_fwd.h \
@@ -70,6 +71,8 @@ nobase_library_include_HEADERS = \
   switch/network_switch.h \
   switch/network_switch_fwd.h \
   switch/dist_dummyswitch.h \
+  drainer/log_drainer.h \
+  drainer/log_drainer_fwd.h \
   topology/butterfly.h \
   topology/crossbar.h \
   topology/dragonfly.h \
@@ -132,10 +135,12 @@ libsstmac_hw_la_SOURCES =  \
   pisces/pisces_switch.cc \
   pisces/pisces_tiled_switch.cc \
   pisces/pisces_memory_model.cc \
+  pisces/pisces_log_drainer.cc \
   network/network_message.cc \
   interconnect/interconnect.cc \
   switch/network_switch.cc \
   switch/dist_dummyswitch.cc \
+  drainer/log_drainer.cc \
   topology/butterfly.cc \
   topology/crossbar.cc \
   topology/dragonfly.cc \

@@ -48,6 +48,8 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/hardware/pisces/pisces_crossbar.h>
 #include <sstmac/hardware/pisces/pisces_sender.h>
 
+#define LOG_BUFFER_SIZE 2000
+
 namespace sstmac {
 namespace hw {
 
@@ -202,6 +204,47 @@ class pisces_injection_buffer :
   pisces_bandwidth_arbitrator* arb_;
   long credits_;
 
+};
+
+class pisces_log_buffer :
+  public pisces_buffer
+{
+ public:
+  pisces_log_buffer(sprockit::sim_parameters* params,
+                             event_scheduler* parent);
+
+  virtual ~pisces_log_buffer();
+
+  int
+  queue_length() const override;
+
+  void
+  handle_credit(event* ev) override;
+
+  log_info*
+  handle_payload(event* ev) override;
+
+  std::string
+  pisces_name() const override {
+    return "log buffer";
+  }
+
+  event_handler*
+  payload_handler();
+
+ protected:
+  //std::array<pisces_log_packet*, LOG_BUFFER_SIZE> log_buffer_;
+  pisces_log_packet* log_buffer_[LOG_BUFFER_SIZE];
+  unsigned int head;
+  unsigned int tail;
+  unsigned int sz;
+  
+  int credits_;
+
+ private:
+  int packet_size_;
+  event_handler* payload_handler_; 
+  
 };
 
 }

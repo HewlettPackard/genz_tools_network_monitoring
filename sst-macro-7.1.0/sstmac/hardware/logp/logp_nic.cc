@@ -118,6 +118,15 @@ logp_nic::connect_input(
   //nothing needed
 }
 
+void
+logp_nic::connect_log_output(
+  int src_outport,
+  int dst_inport,
+  event_handler* mod)
+{
+  //nothing needed
+}
+  
 link_handler*
 logp_nic::payload_handler(int port) const
 {

@@ -54,7 +54,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/hardware/nic/nic_fwd.h>
 #include <sstmac/hardware/nic/netlink_fwd.h>
 #include <sstmac/hardware/switch/network_switch_fwd.h>
-
+#include <sstmac/hardware/drainer/log_drainer_fwd.h>
 #include <sstmac/backends/common/sim_partition_fwd.h>
 
 #include <sprockit/debug.h>
@@ -124,6 +124,7 @@ class interconnect
   typedef std::vector<connectable*> endpoint_map;
   typedef std::vector<node*> node_map;
   typedef std::vector<nic*> nic_map;
+  typedef std::vector<log_drainer*> drainer_map;
 
   ~interconnect();
 
@@ -193,10 +194,16 @@ class interconnect
 
   void build_switches(sprockit::sim_parameters* switch_params,
                       event_manager* mgr);
+  
+  void build_drainers(sprockit::sim_parameters* drainer_params,
+		      event_manager* mgr);
+
+  void connect_drainers();
 
   void connect_endpoints(sprockit::sim_parameters* inj_params,
                   sprockit::sim_parameters* ej_params);
 
+  drainer_map drainers_;
   switch_map switches_;
   //a set of switches that transfer messages quickly
   switch_map logp_overlay_switches_;

@@ -97,6 +97,13 @@ class logp_switch :
                      int src_outport, int dst_inport,
                      event_handler* handler) override;
 
+  void connect_log_output(int src_outport, int dst_inport,
+                      event_handler* handler) override;
+
+  link_handler* log_credit_handler() const override {
+    return nullptr;
+  }
+  
   link_handler* payload_handler(int port) const override;
 
   link_handler* credit_handler(int port) const override {

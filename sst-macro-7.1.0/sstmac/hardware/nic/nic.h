@@ -49,6 +49,7 @@ Questions? Contact sst-macro-help@sandia.gov
 #include <sstmac/hardware/node/node_fwd.h>
 #include <sstmac/hardware/common/failable.h>
 #include <sstmac/hardware/common/connection.h>
+#include <sstmac/hardware/common/loggable.h>
 #include <sstmac/hardware/common/packet_fwd.h>
 #include <sstmac/hardware/network/network_message_fwd.h>
 #include <sstmac/common/stats/stat_spyplot_fwd.h>
@@ -77,6 +78,7 @@ namespace hw {
  */
 class nic :
   public failable,
+  public loggable,
   public connectable_subcomponent
 {
   DeclareFactory(nic,node*)
