@@ -72,7 +72,11 @@ RegisterKeywords(
 "pipeline_fraction",
 );
 
-#define DEFAULT_NEGLIGIBLE_SIZE 256
+/* The default negligible size was changed from 256. This was causing small messages to be sent directly to 
+the destination over logP overlay. Setting DEFAULT_NEGLIGIBLE_SIZE to 0 packetizes the message and sends it over the network*/
+
+//#define DEFAULT_NEGLIGIBLE_SIZE 256
+#define DEFAULT_NEGLIGIBLE_SIZE 0
 
 namespace sstmac {
 namespace hw {
