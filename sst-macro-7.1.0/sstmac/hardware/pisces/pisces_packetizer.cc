@@ -189,7 +189,6 @@ pisces_packetizer::spaceToSend(int vn, int num_bits)
 log_info*
 pisces_packetizer::inject(int vn, long bytes, long byte_offset, message* msg, bool pm_monitor)
 {
-  //std::cout << "flow id " << msg->flow_id() << std::endl;
   bool is_tail = (byte_offset + bytes) == msg->byte_length();
   //only carry the payload if you're the tail packet
   pisces_payload* payload = pkt_allocator_->new_packet(bytes, msg->flow_id(), is_tail,

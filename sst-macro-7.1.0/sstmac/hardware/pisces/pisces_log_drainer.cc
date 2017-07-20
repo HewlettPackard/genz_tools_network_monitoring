@@ -73,7 +73,7 @@ namespace sstmac {
 
       //Next send back credit
       pisces_credit* credit = new pisces_credit(src_outport_,
-						0, pkt->num_bytes());
+						0, 1);
       timestamp credit_departure = now();
       
       send_to_link(credit_departure,
