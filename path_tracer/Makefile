@@ -1,9 +1,8 @@
 TARGET   = pathtracer
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
-#TP_ROOT := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 CXX=g++
 LINKER=g++
-OPT=-O0
+OPT=-O3
 CXXFLAGS+=-g -Wall -std=c++11
 INCPATH=-I./include
 

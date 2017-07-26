@@ -332,8 +332,10 @@ pisces_cut_through_packetizer::recv_packet(event* ev)
     log->out_port = 0;
     log->next_hop_port = 0;
     log->arr_time = pkt->arrival().sec();
-    log->head_leaves =  0;
-    log->tail_leaves = 0;
+    timestamp sendtime = pkt->arrival();
+    sendtime += delay;
+    log->head_leaves =  sendtime.sec();
+    log->tail_leaves = sendtime.sec();
     
     pisces_log_packet* log_pkt = new pisces_log_packet(log);
     log_buffer_->handle_payload(log_pkt);    

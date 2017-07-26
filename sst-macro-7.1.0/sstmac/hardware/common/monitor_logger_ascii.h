@@ -38,13 +38,14 @@ namespace sstmac {
 	  logger << ((config_info*)log)->from_id << ","
 		 << ((config_info*)log)->from_port << ","
 		 << ((config_info*)log)->to_id << ","
-		 << ((config_info*)log)->to_port << ","
+		 << ((config_info*)log)->to_port
 		 << std::endl;
 	} else if (std::is_same<T, node_info>::value) {
 	  logger << ((node_info*)log)->from_addr << ","
 		 << ((node_info*)log)->to_addr << ","
 		 << ((node_info*)log)->message_id << ","
 		 << ((node_info*)log)->send_time << ","
+		 << ((node_info*)log)->recv_time
 		 << std::endl;	  
 	}
       }

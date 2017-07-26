@@ -66,7 +66,10 @@ Log_Reader::read_indv_node_logs(uint32_t* node_ctr) {
 
     node_info* n_info = (node_info*)malloc(sizeof(node_info));
     while(fread(n_info,sizeof(node_info),1,file_ptr) == 1) {
-      all_nodes_[*node_ctr].insert(n_info->send_time,*n_info);
+      if(n_info->send_time != 0)
+	all_nodes_[*node_ctr].insert(n_info->send_time,*n_info);
+      else
+	all_nodes_[*node_ctr].insert(n_info->recv_time,*n_info);
     }
 
     fclose(file_ptr);

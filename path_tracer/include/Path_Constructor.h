@@ -3,6 +3,7 @@
 
 #include "Log_Reader.h"
 #include "path_info.h"
+#include <vector>
 
 class Path_Constructor {
  private:
@@ -12,7 +13,7 @@ class Path_Constructor {
  public:
   Path_Constructor(Log_Reader* reader);
   void construct_all_paths();
-  //void output_path(int node_id, vector<path_info>& path);
+  void output_path(int node_id, std::vector<path_info>& path);
  protected:
   Log_Reader* reader_;
   /*2-dim vector to hold all paths*/
