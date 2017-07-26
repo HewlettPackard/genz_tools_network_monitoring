@@ -252,7 +252,8 @@ node::handle(event* ev)
       log.from_addr = netmsg->fromaddr();
       log.to_addr = netmsg->toaddr();
       log.message_id = netmsg->flow_id();
-      log.send_time = now().sec();
+      log.send_time = 0;
+      log.recv_time = now().sec();
 
       logger_->recv(&log);
     }    
@@ -281,6 +282,7 @@ node::send_to_nic(network_message* netmsg)
     log.to_addr = netmsg->toaddr();
     log.message_id = netmsg->flow_id();
     log.send_time = now().sec();
+    log.recv_time = 0;
 
     logger_->recv(&log);
   }

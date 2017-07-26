@@ -3,7 +3,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 #TP_ROOT := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 CXX=g++
 LINKER=g++
-OPT=-O3
+OPT=-O0
 CXXFLAGS+=-g -Wall -std=c++11
 INCPATH=-I./include
 

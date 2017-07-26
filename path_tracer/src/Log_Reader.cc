@@ -2,6 +2,7 @@
 #include <sstream> 
 
 #include "Log_Reader.h"
+#include "monitor_logger_ascii.h"
 
 Log_Reader::Log_Reader(uint32_t num_nodes, uint32_t num_nics, uint32_t num_switches) {
   num_nodes_ = num_nodes;
@@ -27,7 +28,12 @@ void
 Log_Reader::read_indv_config(const char* config_file_name, std::unordered_map<uint64_t,uint32_t>& config_map) {
   FILE* file_ptr = fopen(config_file_name,"rb");
 
-  config_info* c_info = nullptr;
+  if (file_ptr == NULL) {
+    std::cout << "Config file not available. Exiting\n";
+    exit(0);
+  }
+
+  config_info* c_info = (config_info*)malloc(sizeof(config_info));
   while(fread(c_info,sizeof(config_info),1,file_ptr) == 1) {
     uint64_t config_map_key = static_cast<uint64_t>(c_info->from_id);
     config_map_key = config_map_key << 32;
@@ -58,7 +64,7 @@ Log_Reader::read_indv_node_logs(uint32_t* node_ctr) {
     ss << "node_" << *node_ctr << ".log";
     FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    node_info* n_info = nullptr;
+    node_info* n_info = (node_info*)malloc(sizeof(node_info));
     while(fread(n_info,sizeof(node_info),1,file_ptr) == 1) {
       all_nodes_[*node_ctr].insert(n_info->send_time,*n_info);
     }
@@ -86,7 +92,7 @@ Log_Reader::read_indv_nic_logs(uint32_t* nic_ctr) {
     ss << "nic_" << *nic_ctr << ".log";
     FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    log_info* n_info = nullptr;
+    log_info* n_info = (log_info*)malloc(sizeof(log_info));
     while(fread(n_info,sizeof(log_info),1,file_ptr) == 1) {
       all_nics_[*nic_ctr].insert(n_info->arr_time,*n_info);
     }
@@ -114,7 +120,7 @@ Log_Reader::read_indv_switch_logs(uint32_t* switch_ctr) {
     ss << "switch_" << *switch_ctr << ".log";
     FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    log_info* s_info = nullptr;
+    log_info* s_info = (log_info*)malloc(sizeof(log_info));
     while(fread(s_info,sizeof(log_info),1,file_ptr) == 1) {
       all_switches_[*switch_ctr].insert(s_info->arr_time,*s_info);
     }
@@ -133,4 +139,25 @@ Log_Reader::read_switch_logs() {
   read_indv_switch_logs(&switch_ctr);
 
   //join threads
+}
+
+void
+Log_Reader::print_all_logs() {
+  for(uint32_t i = 0; i < num_nodes_; i++) {
+    std::stringstream ss;
+    ss << "node_" << i << ".log";
+    all_nodes_[i].print(ss.str());
+  }
+
+  for(uint32_t i = 0; i < num_nics_; i++) {
+    std::stringstream ss;
+    ss << "nic_" << i << ".log";
+    all_nics_[i].print(ss.str());
+  }
+
+  for(uint32_t i = 0; i < num_switches_; i++) {
+    std::stringstream ss;
+    ss << "switch_" << i << ".log";
+    all_switches_[i].print(ss.str());
+  }  
 }

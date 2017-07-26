@@ -6,6 +6,7 @@ struct node_info {
   uint32_t to_addr;
   uint64_t message_id;
   double send_time;
+  double recv_time;
 };
 
 #endif

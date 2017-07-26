@@ -27,12 +27,43 @@ class Log_Reader {
   void read_indv_switch_logs(uint32_t* switch_ctr);
   
  public:
+  uint32_t num_nodes_, num_nics_, num_switches_;
+  
   Log_Reader(uint32_t num_nodes, uint32_t num_nics, uint32_t num_switches);
 
   ~Log_Reader();
 
+  Component_Logs<node_info>& get_node_logs(uint32_t node_id) {
+    return all_nodes_[node_id];
+  }
+
+  Component_Logs<log_info>& get_nic_logs(uint32_t node_id) {
+    return all_nics_[node_id];
+  }
+
+  Component_Logs<log_info>& get_switch_logs(uint32_t sw_id) {
+    return all_switches_[sw_id];
+  }
+
+  int get_switch_id_from_node(uint64_t key) {
+    return node_to_switch_.at(key);
+  }
+
+  int get_switch_id_from_switch(uint64_t key) {
+    return switch_to_switch_.at(key);
+  }
+
+  int get_node_id_from_switch(uint64_t key) {
+    return switch_to_node_.at(key);
+  }
+
+  bool switch_log_exists(uint64_t key) {
+    return switch_to_switch_.count(key);
+  }
+  
+  void print_all_logs();
+
  protected:
-  uint32_t num_nodes_, num_nics_, num_switches_;
   Component_Logs<node_info>* all_nodes_;
   Component_Logs<log_info>* all_nics_;
   Component_Logs<log_info>* all_switches_;
