@@ -259,7 +259,12 @@ pisces_switch::handle_credit(event *ev)
 {
   pisces_credit* credit = static_cast<pisces_credit*>(ev);
   switch_debug("handling credit %s", credit->to_string().c_str());
-  out_buffers_[credit->port()]->handle_credit(credit);
+  log_info* log = out_buffers_[credit->port()]->handle_credit(credit);
+
+  if (log) {
+    pisces_log_packet* log_pkt = new pisces_log_packet(log);
+    log_buffer_->handle_payload(log_pkt);
+  }  
 }
 
 void

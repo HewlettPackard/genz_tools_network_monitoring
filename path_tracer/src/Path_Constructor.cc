@@ -21,7 +21,11 @@ Path_Constructor::construct_path(node_info& n_info) {
   path_info p_info;
   p_info.comp_id = src_id;
   p_info.comp_type = NODE;
-  p_info.delay = 0;
+
+  p_info.arr_time = 0;
+  p_info.dep_time = n_info.send_time;
+  p_info.link_delay = 0;
+  p_info.comp_delay = 0;
   path.push_back(p_info);
 
   //Search the nic log corresponding to the source node id
@@ -38,7 +42,11 @@ Path_Constructor::construct_path(node_info& n_info) {
   path_info p_info_nic;
   p_info_nic.comp_id = src_id;
   p_info_nic.comp_type = NIC;
-  p_info_nic.delay = src_nic_log.tail_leaves-src_nic_log.arr_time;// or src_nic_log.head_leaves?
+  p_info_nic.comp_delay = src_nic_log.head_leaves-src_nic_log.arr_time;// or src_nic_log.tail_leaves?
+  p_info_nic.link_delay =  src_nic_log.arr_time - n_info.send_time;
+  p_info_nic.arr_time = src_nic_log.arr_time;
+  p_info_nic.dep_time = src_nic_log.head_leaves;
+  
   path.push_back(p_info_nic);
 
   //From the nic get the source switch
@@ -68,7 +76,11 @@ Path_Constructor::construct_path(node_info& n_info) {
 	path_info p_info_switch;
 	p_info_switch.comp_id = switch_id;
 	p_info_switch.comp_type = SWITCH;
-	p_info_switch.delay = log_entry.tail_leaves-log_entry.arr_time;
+
+	p_info_switch.arr_time = log_entry.arr_time;
+	p_info_switch.dep_time = log_entry.head_leaves;//log_entry.tail_leaves;
+	p_info_switch.link_delay = log_entry.arr_time-prev_send_time;
+	p_info_switch.comp_delay = log_entry.head_leaves-log_entry.arr_time; //or tail_leaves
 	path.push_back(p_info_switch);
 
 	prev_send_time = log_entry.head_leaves; // or tail_leaves
@@ -109,7 +121,11 @@ Path_Constructor::construct_path(node_info& n_info) {
       path_info p_info_nic;
       p_info_nic.comp_id = dest_id;
       p_info_nic.comp_type = NIC;
-      p_info_nic.delay = log_entry.tail_leaves-log_entry.arr_time;
+
+      p_info_nic.arr_time = log_entry.arr_time;
+      p_info_nic.dep_time = log_entry.head_leaves;//log_entry.tail_leaves;
+      p_info_nic.link_delay = log_entry.arr_time-prev_send_time;
+      p_info_nic.comp_delay = log_entry.head_leaves-log_entry.arr_time; // or log_entry.tail_leaves?
       path.push_back(p_info_nic);
 
       nic_prev_send_time = log_entry.head_leaves;
@@ -130,7 +146,11 @@ Path_Constructor::construct_path(node_info& n_info) {
     path_info p_info_node;
     p_info_node.comp_id = dest_id;
     p_info_node.comp_type = NODE;
-    p_info_node.delay = node_log_entry.recv_time-nic_prev_send_time;
+
+    p_info_node.arr_time = node_log_entry.recv_time;
+    p_info_node.dep_time = 0;//node_log_entry.recv_time;
+    p_info_node.link_delay = node_log_entry.recv_time-nic_prev_send_time;
+    p_info_node.comp_delay = 0;
     path.push_back(p_info_node);
   }
 
@@ -141,7 +161,7 @@ Path_Constructor::construct_path(node_info& n_info) {
 void
 Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
   for(auto it = path.begin(); it != path.end(); it++) {
-    std::cout << it->comp_id << "," << it->comp_type << "," << it->delay << ";";
+    std::cout << it->comp_id << "," << it->comp_type << "," << it->arr_time << "," << it->dep_time << "," << it->link_delay << "," << it->comp_delay << ";";
   }
   std::cout << std::endl;
 }

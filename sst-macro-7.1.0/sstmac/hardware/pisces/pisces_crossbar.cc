@@ -233,7 +233,7 @@ pisces_NtoM_queue::send_payload(pisces_payload* pkt)
   return send(arb_, pkt, inputs_[pkt->inport()], outputs_[loc_port]);
 }
 
-void
+log_info*
 pisces_NtoM_queue::handle_credit(event* ev)
 {
   pisces_credit* pkt = static_cast<pisces_credit*>(ev);
@@ -255,7 +255,7 @@ pisces_NtoM_queue::handle_credit(event* ev)
   pisces_payload* payload = queue(outport, vc).pop(num_credits);
   if (payload) {
     num_credits -= payload->num_bytes();
-    send_payload(payload);
+    return send_payload(payload);
   }
 
   delete pkt;

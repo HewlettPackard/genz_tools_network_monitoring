@@ -31,8 +31,8 @@ namespace sstmac {
 		 << ((log_info*)log)->out_port << ","
 		 << ((log_info*)log)->next_hop_port << ","
 		 << ((log_info*)log)->arr_time << ","
-		 << (((log_info*)log)->head_leaves != 0 ? std::to_string(((log_info*)log)->head_leaves) : " ") << ","
-		 << (((log_info*)log)->tail_leaves != 0 ? std::to_string(((log_info*)log)->tail_leaves) : " ")
+		 << (((log_info*)log)->head_leaves != 0 ? ((log_info*)log)->head_leaves : 0) << ","
+		 << (((log_info*)log)->tail_leaves != 0 ? ((log_info*)log)->tail_leaves : 0)
 		 << std::endl;
 	} else if (std::is_same<T, config_info>::value) {
 	  logger << ((config_info*)log)->from_id << ","

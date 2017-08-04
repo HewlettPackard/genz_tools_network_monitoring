@@ -113,7 +113,7 @@ class pisces_sender :
     int my_outport, int dst_inport,
     event_handler* output) = 0;
 
-  virtual void handle_credit(event* ev) = 0;
+  virtual log_info* handle_credit(event* ev) = 0;
 
   virtual log_info* handle_payload(event* ev) = 0;
 

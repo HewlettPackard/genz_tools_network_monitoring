@@ -10,7 +10,10 @@ enum component_type{
 struct path_info {
   int comp_id;
   component_type comp_type;
-  double delay;
+  double arr_time;
+  double dep_time;
+  double link_delay;
+  double comp_delay;
 };
 
 #endif

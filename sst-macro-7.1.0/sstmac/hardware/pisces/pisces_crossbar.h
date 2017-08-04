@@ -71,7 +71,7 @@ class pisces_NtoM_queue :
   log_info*
   handle_payload(event* ev) override;
 
-  void
+  log_info*
   handle_credit(event* ev) override;
 
   event_handler*

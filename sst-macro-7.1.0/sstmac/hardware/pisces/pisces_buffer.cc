@@ -110,7 +110,7 @@ pisces_network_buffer::pisces_network_buffer(
           get_param("arbitrator", params);
 }
 
-void
+log_info*
 pisces_network_buffer::handle_credit(event* ev)
 {
   pisces_credit* credit = static_cast<pisces_credit*>(ev);
@@ -148,6 +148,7 @@ pisces_network_buffer::handle_credit(event* ev)
   }
 
   delete credit;
+  return NULL;
 }
 
 event_handler*
@@ -355,11 +356,12 @@ pisces_eject_buffer::handle_payload(event* ev)
   return NULL;
 }
 
-void
+log_info*
 pisces_eject_buffer::handle_credit(event* ev)
 {
   spkt_throw_printf(sprockit::illformed_error,
                    "pisces_eject_buffer::handle_credit: should not handle credits");
+  return NULL;
 }
 
 pisces_injection_buffer::
@@ -376,7 +378,7 @@ pisces_injection_buffer(sprockit::sim_parameters* params, event_scheduler* paren
   }
 }
 
-void
+log_info*
 pisces_injection_buffer::handle_credit(event* ev)
 {
   pisces_credit* credit = static_cast<pisces_credit*>(ev);
@@ -392,6 +394,7 @@ pisces_injection_buffer::handle_credit(event* ev)
   bytes_delayed_ -= credit->num_credits();
 
   delete credit;
+  return NULL;
   //send_what_you_can();
   //delete msg;
 }
@@ -478,7 +481,7 @@ pisces_injection_buffer::queue_length() const
     if (payload_handler_) delete payload_handler_;
   }
 
-  void
+  log_info*
   pisces_log_buffer::handle_credit(event* ev)
   {
     pisces_credit* credit = static_cast<pisces_credit*>(ev);
@@ -492,6 +495,7 @@ pisces_injection_buffer::queue_length() const
       credits_ = credits_ - 1;
       head = (head + 1) % LOG_BUFFER_SIZE;
     }
+    return NULL;
   }
 
   event_handler*

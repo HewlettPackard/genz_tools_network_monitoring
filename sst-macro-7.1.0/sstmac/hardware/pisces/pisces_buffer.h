@@ -111,7 +111,7 @@ class pisces_network_buffer :
   int
   queue_length() const override;
 
-  void
+  log_info*
   handle_credit(event* ev) override;
 
   log_info*
@@ -155,7 +155,7 @@ class pisces_eject_buffer :
   {
   }
 
-  void
+  log_info*
   handle_credit(event* ev) override;
 
   log_info*
@@ -188,7 +188,7 @@ class pisces_injection_buffer :
     return credits_ >= bytes;
   }
 
-  void
+  log_info*
   handle_credit(event* ev) override;
 
   log_info*
@@ -218,7 +218,7 @@ class pisces_log_buffer :
   int
   queue_length() const override;
 
-  void
+  log_info*
   handle_credit(event* ev) override;
 
   log_info*
