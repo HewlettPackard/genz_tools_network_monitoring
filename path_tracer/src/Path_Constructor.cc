@@ -1,4 +1,7 @@
 #include <assert.h>
+#include <sys/stat.h>
+#include <fstream>
+#include <sstream>
 
 #include "Path_Constructor.h"
 
@@ -166,6 +169,19 @@ Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
   std::cout << std::endl;
 }
 
+// void
+// Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
+//   std::ofstream ofs;
+//   std::stringstream ss;
+//   ss << "path_" << node_id << ".log";
+//   ofs.open(ss.str().c_str(),std::ofstream::out | std::ofstream::app);
+//   for(auto it = path.begin(); it != path.end(); it++) {
+//     ofs << it->comp_id << "," << it->comp_type << "," << it->arr_time << "," << it->dep_time << "," << it->link_delay << "," << it->comp_delay << ";";
+//   }
+//   ofs << std::endl;
+//   ofs.close();
+// }
+
 void
 Path_Constructor::construct_node_paths(uint32_t* node_ctr) {
   while(*node_ctr != reader_->num_nodes_) {
@@ -183,6 +199,12 @@ Path_Constructor::construct_node_paths(uint32_t* node_ctr) {
 
 void
 Path_Constructor::construct_all_paths() {
+  struct stat buffer;
+  if (stat ("path_0.log", &buffer) == 0) {
+    std::cout << "Remove all path log files (Files of format path_**.log). Exiting\n";
+    exit(0);
+  }
+  
   uint32_t node_ctr = 0;
   construct_node_paths(&node_ctr);
 }
