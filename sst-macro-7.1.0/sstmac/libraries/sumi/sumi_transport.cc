@@ -365,17 +365,14 @@ sumi_transport::send(
     sw::thread* t = sw::operating_system::current_thread();
     uint64_t pm_ctr = t->get_pm_tracking_ctr();
 
-    //std::cout << "tid = " << t->thread_id() << "PM counter entering = " << pm_ctr << std::endl;
     if (pm_ctr == 0) {
       std::uniform_int_distribution<std::mt19937::result_type> dist(0,PM_MONITOR_RANGE);
       //t->set_marked_packet_idx(rand() % PM_MONITOR_RANGE);
       t->set_marked_packet_idx(dist(t->get_rand_gen()));
-      //std::cout << "Marked packet index = " <<  t->get_marked_packet_idx() << std::endl;
     }
 
     t->set_pm_tracking_ctr((pm_ctr + 1) % PM_MONITOR_RANGE);
 
-    //std::cout << "tid = " << t->thread_id() << "PM counter leaving = " << t->get_pm_tracking_ctr() << std::endl;
     if (pm_ctr == t->get_marked_packet_idx()) {
       return true;
     } else {    
@@ -397,7 +394,6 @@ sumi_transport::send(
   sstmac::sw::app_id aid = sid().app_;
   transport_message* tmsg = new transport_message(server_libname_, aid, msg, byte_length);
 
-  //std::cout << "sending\n";
   if (monitor_message()) {
     tmsg->set_pm_monitor(true);
   }

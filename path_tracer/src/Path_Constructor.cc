@@ -161,6 +161,7 @@ Path_Constructor::construct_path(node_info& n_info) {
   output_path(src_id, path);
 }
 
+/* ***** Print output on stdout
 void
 Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
   for(auto it = path.begin(); it != path.end(); it++) {
@@ -168,19 +169,20 @@ Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
   }
   std::cout << std::endl;
 }
+*/
 
-// void
-// Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
-//   std::ofstream ofs;
-//   std::stringstream ss;
-//   ss << "path_" << node_id << ".log";
-//   ofs.open(ss.str().c_str(),std::ofstream::out | std::ofstream::app);
-//   for(auto it = path.begin(); it != path.end(); it++) {
-//     ofs << it->comp_id << "," << it->comp_type << "," << it->arr_time << "," << it->dep_time << "," << it->link_delay << "," << it->comp_delay << ";";
-//   }
-//   ofs << std::endl;
-//   ofs.close();
-// }
+void
+Path_Constructor::output_path(int node_id, std::vector<path_info>& path) {
+  std::ofstream ofs;
+  std::stringstream ss;
+  ss << "path_" << node_id << ".log";
+  ofs.open(ss.str().c_str(),std::ofstream::out | std::ofstream::app);
+  for(auto it = path.begin(); it != path.end(); it++) {
+    ofs << it->comp_id << "," << it->comp_type << "," << it->arr_time << "," << it->dep_time << "," << it->link_delay << "," << it->comp_delay << ";";
+  }
+  ofs << std::endl;
+  ofs.close();
+}
 
 void
 Path_Constructor::construct_node_paths(uint32_t* node_ctr) {

@@ -147,6 +147,64 @@ def generate_graph_data(filename):
     return paths, hover_text, xdata, max_comp_time, max_start_time, min_start_time
     #print paths
 
+#generate heat map data from each file
+def generate_heat_data(filename,hx_data,sz):
+    h_data = [0.0]*sz
+    h_hover_text = [""]*sz
+    
+    file = open(filename, 'r')
+    lines = file.read().splitlines()
+
+    line_cnt = 0
+    for line in lines:
+        hops = line.split(";");
+        hop_cnt = 0
+        start_time = 0.0
+        hh_text = ""
+        for hop in hops:
+            if hop:
+                hop_stats = hop.split(",");
+
+                if hop_cnt == 0:
+                    start_time = float(hop_stats[3])                
+
+                if not hh_text:
+                    hh_text = hh_text + generate_hover_text(hop_stats)
+                else:
+                    hh_text = hh_text + " --> " + generate_hover_text(hop_stats)
+                
+                #create hover text
+                if hop_cnt == len(hop_stats) - 1:
+                    end_time = float(hop_stats[2])
+                    insert_idx = hx_data.index(start_time)
+                    h_data[insert_idx] = end_time - start_time
+                    h_hover_text[insert_idx] = hh_text
+
+                hop_cnt = hop_cnt + 1
+    
+    file.close()
+    #print h_data
+    return h_data,h_hover_text
+
+def generate_heat_map(hxdata,hydata,hzdata,hovertext):
+    h_data = [go.Heatmap(
+        z=hzdata,
+        x=hxdata,
+        y=hydata,
+        colorscale='Viridis',
+        text=hovertext
+    )]
+
+    h_layout = go.Layout(
+        title='Heatmap of network interaction',
+        hovermode='closest',
+        xaxis = dict(ticks='', nticks=36),
+        yaxis = dict(ticks='' ),
+    )
+
+    h_fig = go.Figure(data=h_data, layout=h_layout)
+    plotly.offline.plot(h_fig, filename='heatmap.html')
+
 #def generate_graphs(all_paths, all_hover_text, all_colors, max_comp_time, node_ids):
 def generate_graphs(all_paths, all_hover_text, all_xdata, max_comp_time, max_x_axis, min_x_axis, node_ids):
     #generate plotly graph
@@ -229,7 +287,7 @@ max_x_axis = 0
 node_ids = []
 files = [f for f in os.listdir('.') if os.path.isfile(f)]
 for filename in files:
-    if filename.endswith(".txt"):
+    if filename.endswith(".log"):
         und_index = filename.index('_');
         dot_index = filename.index('.');
         src_node_id = filename[und_index+1:dot_index]
@@ -252,3 +310,36 @@ for filename in files:
 #generate_graphs(all_paths,all_hover_text, all_colors,int(max_y_axis), node_ids)
 generate_graphs(all_paths,all_hover_text, all_xdata, int(max_y_axis), int(max_x_axis), int(min_x_axis), node_ids)
 merge_graphs()
+
+heat_x_axis = set()
+for xd in all_xdata:
+    heat_x_axis.update(xd)
+
+#print heat_x_axis
+heat_xdata = list(heat_x_axis)
+heat_xdata.sort()
+size_hx = len(heat_xdata)
+
+heat_zdata = [[] for i in range(len(node_ids))]#[0] * len(heat_xdata)
+heat_ydata = [[] for i in range(len(node_ids))]
+heat_hoverdata = [[] for i in range(len(node_ids))]
+
+for filename in files:
+    if filename.endswith(".log"):
+        und_index = filename.index('_');
+        dot_index = filename.index('.');
+        src_node_id = int(filename[und_index+1:dot_index])
+        heat_ydata[src_node_id]=src_node_id
+        hz_data,hz_hover_data = generate_heat_data(filename, heat_xdata, size_hx)
+        heat_zdata[src_node_id]=hz_data
+        heat_hoverdata[src_node_id]=hz_hover_data
+
+heat_ydata.sort()        
+#print heat_xdata
+#print len(heat_xdata)
+#print heat_ydata
+#print len(heat_ydata)
+#print heat_zdata
+#print len(heat_zdata)
+
+generate_heat_map(heat_xdata,heat_ydata,heat_zdata,heat_hoverdata)
