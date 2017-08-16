@@ -223,9 +223,9 @@ pisces_sender::send(
     log->packet_id = pkt->get_id();
     log->out_port = pkt->next_port();
     log->next_hop_port = pkt->inport();
-    log->arr_time = pkt->arrival().nsec();
-    log->head_leaves =  st.head_leaves.nsec();
-    log->tail_leaves = st.tail_leaves.nsec();
+    log->arr_time = pkt->arrival().psec();
+    log->head_leaves =  st.head_leaves.psec();
+    log->tail_leaves = st.tail_leaves.psec();
   }
 
   send_to_link(st.head_leaves, send_lat_, dest.handler, pkt);

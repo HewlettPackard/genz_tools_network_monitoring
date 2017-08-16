@@ -20,6 +20,8 @@ Path_Constructor::construct_path(node_info& n_info) {
   //First get the source node id
   uint32_t src_id = n_info.from_addr;
 
+  if (n_info.from_addr != 42 && n_info.to_addr != 42) return;
+
   //Add node info to path vector
   path_info p_info;
   p_info.comp_id = src_id;

@@ -1,13 +1,13 @@
 #include<stdio.h>
+#include <sys/stat.h>
 #include <sstream> 
 
 #include "Log_Reader.h"
 #include "monitor_logger_ascii.h"
 
-Log_Reader::Log_Reader(uint32_t num_nodes, uint32_t num_nics, uint32_t num_switches) {
-  num_nodes_ = num_nodes;
-  num_nics_ = num_nics;
-  num_switches_ = num_switches;
+Log_Reader::Log_Reader() {
+  read_topology_log();
+
   all_nodes_ = new Component_Logs<node_info>[num_nodes_];
   all_nics_ = new Component_Logs<log_info>[num_nics_];
   all_switches_ = new Component_Logs<log_info>[num_switches_];
@@ -22,6 +22,23 @@ Log_Reader::~Log_Reader() {
   delete [] all_nodes_;
   delete [] all_nics_;
   delete [] all_switches_;
+}
+
+bool
+Log_Reader::file_exists(std::string filename) {
+  struct stat buffer;
+  return (stat (filename.c_str(), &buffer) == 0);
+}
+
+void
+Log_Reader::read_topology_log() {
+  FILE* file_ptr = fopen("topology_config.log","rb");
+  topology_info* t_info = (topology_info*)malloc(sizeof(topology_info));
+  fread(t_info,sizeof(topology_info),1,file_ptr);
+  num_nodes_ = t_info->num_nodes;
+  num_nics_ = t_info->num_nics;
+  num_switches_ = t_info->num_switches;
+  fclose(file_ptr);
 }
 
 void
@@ -62,17 +79,19 @@ Log_Reader::read_indv_node_logs(uint32_t* node_ctr) {
   while(*node_ctr != num_nodes_) {
     std::stringstream ss;
     ss << "node_" << *node_ctr << ".log";
-    FILE* file_ptr = fopen(ss.str().c_str(),"rb");
+    if (file_exists(ss.str())) {
+      FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    node_info* n_info = (node_info*)malloc(sizeof(node_info));
-    while(fread(n_info,sizeof(node_info),1,file_ptr) == 1) {
-      if(n_info->send_time != 0)
-	all_nodes_[*node_ctr].insert(n_info->send_time,*n_info);
-      else
-	all_nodes_[*node_ctr].insert(n_info->recv_time,*n_info);
+      node_info* n_info = (node_info*)malloc(sizeof(node_info));
+      while(fread(n_info,sizeof(node_info),1,file_ptr) == 1) {
+	if(n_info->send_time != 0)
+	  all_nodes_[*node_ctr].insert(n_info->send_time,*n_info);
+	else
+	  all_nodes_[*node_ctr].insert(n_info->recv_time,*n_info);
+      }
+
+      fclose(file_ptr);
     }
-
-    fclose(file_ptr);
     (*node_ctr)++;
   }
 }
@@ -93,14 +112,16 @@ Log_Reader::read_indv_nic_logs(uint32_t* nic_ctr) {
   while(*nic_ctr != num_nics_) {
     std::stringstream ss;
     ss << "nic_" << *nic_ctr << ".log";
-    FILE* file_ptr = fopen(ss.str().c_str(),"rb");
+    if (file_exists(ss.str())) {
+      FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    log_info* n_info = (log_info*)malloc(sizeof(log_info));
-    while(fread(n_info,sizeof(log_info),1,file_ptr) == 1) {
-      all_nics_[*nic_ctr].insert(n_info->arr_time,*n_info);
+      log_info* n_info = (log_info*)malloc(sizeof(log_info));
+      while(fread(n_info,sizeof(log_info),1,file_ptr) == 1) {
+	all_nics_[*nic_ctr].insert(n_info->arr_time,*n_info);
+      }
+
+      fclose(file_ptr);
     }
-
-    fclose(file_ptr);
     (*nic_ctr)++;
   }
 }
@@ -121,14 +142,16 @@ Log_Reader::read_indv_switch_logs(uint32_t* switch_ctr) {
   while(*switch_ctr != num_switches_) {
     std::stringstream ss;
     ss << "switch_" << *switch_ctr << ".log";
-    FILE* file_ptr = fopen(ss.str().c_str(),"rb");
+    if (file_exists(ss.str())) {
+      FILE* file_ptr = fopen(ss.str().c_str(),"rb");
 
-    log_info* s_info = (log_info*)malloc(sizeof(log_info));
-    while(fread(s_info,sizeof(log_info),1,file_ptr) == 1) {
-      all_switches_[*switch_ctr].insert(s_info->arr_time,*s_info);
+      log_info* s_info = (log_info*)malloc(sizeof(log_info));
+      while(fread(s_info,sizeof(log_info),1,file_ptr) == 1) {
+	all_switches_[*switch_ctr].insert(s_info->arr_time,*s_info);
+      }
+
+      fclose(file_ptr);
     }
-
-    fclose(file_ptr);
     (*switch_ctr)++;
   }
 }

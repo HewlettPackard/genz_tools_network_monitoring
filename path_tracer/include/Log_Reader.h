@@ -2,14 +2,18 @@
 #define LOG_READER_H_INCLUDED
 
 #include <unordered_map>
+#include <string>
 
 #include "Component_Logs.h"
 #include "log_info.h"
 #include "config_info.h"
 #include "node_info.h"
+#include "topology_info.h"
 
 class Log_Reader {
  private:
+  void read_topology_log();
+  
   void read_configs();
 
   void read_node_logs();
@@ -25,11 +29,13 @@ class Log_Reader {
   void read_indv_nic_logs(uint32_t* nic_ctr);
 
   void read_indv_switch_logs(uint32_t* switch_ctr);
+
+  bool file_exists(std::string filename);
   
  public:
   uint32_t num_nodes_, num_nics_, num_switches_;
   
-  Log_Reader(uint32_t num_nodes, uint32_t num_nics, uint32_t num_switches);
+  Log_Reader();
 
   ~Log_Reader();
 

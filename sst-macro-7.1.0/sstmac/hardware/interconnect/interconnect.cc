@@ -67,6 +67,7 @@ Questions? Contact sst-macro-help@sandia.gov
 
 #include <sstmac/hardware/common/monitor_logger.h>
 #include <sstmac/hardware/common/config_info.h>
+#include <sstmac/hardware/common/topology_info.h>
 
 
 RegisterDebugSlot(interconnect);
@@ -132,6 +133,15 @@ interconnect::interconnect(sprockit::sim_parameters *params, event_manager *mgr,
   topology_ = topology::static_topology(params);
   num_nodes_ = topology_->num_nodes();
   num_switches_ = topology_->num_switches();
+
+  monitor_logger<struct topology_info> top_config_logger("topology_config.log");
+
+  topology_info log;
+  log.num_nodes = num_nodes_;
+  log.num_nics = num_nodes_;
+  log.num_switches = num_switches_;
+  top_config_logger.recv(&log);
+  
   runtime::set_topology(topology_);
 
 #if !SSTMAC_INTEGRATED_SST_CORE
