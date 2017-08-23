@@ -1,0 +1,56 @@
+\documentclass{llncs}
+
+\usepackage{amsmath,amssymb}
+\usepackage{url}
+%%\usepackage{algorithm2e}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xspace}
+\usepackage{times}
+\usepackage{subcaption}
+%%\usepackage[sort&compress]{natbib}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage{balance}
+%%\usepackage{flushend}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{todonotes}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+
+\algrenewcommand\algorithmicindent{1.0em}%
+%\SetProcNameSty{textsc}
+%\SetProcArgSty{textsc}
+
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\ie}{\emph{i.e.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+\newcommand{\fixme}[1]{\textbf{\textcolor{red}{[ Fixme: #1]}}}
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\begin{document}
+\title{Network Performance Monitoring} %Just a place holder
+
+\author{Adarsh Yoga \and Milind Chabbi}
+
+\input{sec.abstract.tex}
+
+\maketitle
+
+\input{sec.intro.tex}
+\input{sec.background.tex}
+\input{sec.approach.tex}
+\input{sec.eval.tex}
+\input{sec.related.tex}
+\input{sec.conclusion.tex}
+\bibliographystyle{splncs}
+\bibliography{nwpmbib}
+
+\end{document}
