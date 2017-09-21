@@ -26,7 +26,9 @@ The instructions to build each module are as follows. We refer to the top level 
    Use -j option to run make in parallel
 
    SST/Macro creates a set of binary files in the installation directory. Add the directory to the PATH variable.
-   > export PATH=<PATH_TO_INSTALL_DIRECTORY>/bin:$PATH
+```
+      export PATH=<PATH_TO_INSTALL_DIRECTORY>/bin:$PATH
+```
 
 2) Building Path Tracer
 ```
