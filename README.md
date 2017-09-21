@@ -13,6 +13,7 @@ The tool contains 3 modules. They are,
 The instructions to build each module are as follows. We refer to the top level directory of the repository as NWPM_HOME.
 
 1) Building SST/Macro
+
       cd NWPM_HOME/sst-macro-7.1.0
       mkdir build; cd build
       ../configure --prefix=<PATH_TO_INSTALL_DIRECTORY> CC=mpicc CXX=mpicxx
