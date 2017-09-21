@@ -13,13 +13,14 @@ The tool contains 3 modules. They are,
 The instructions to build each module are as follows. We refer to the top level directory of the repository as NWPM_HOME.
 
 1) Building SST/Macro
-   > cd NWPM_HOME/sst-macro-7.1.0
-   > mkdir build; cd build
-   > ../configure --prefix=<PATH_TO_INSTALL_DIRECTORY> CC=mpicc CXX=mpicxx
+> cd NWPM_HOME/sst-macro-7.1.0
+> mkdir build; cd build
+> ../configure --prefix=<PATH_TO_INSTALL_DIRECTORY> CC=mpicc CXX=mpicxx
+
 SST/Macro requires the latest version of OpenMPI (3.1). If any of the libraries are installed on the non-default path(i.e. not /usr/lib) then use LDFLAGS to provide the path to the library.
 
-   > make; make install
-   Use -j option to run make in parallel
+> make; make install
+Use -j option to run make in parallel
 
    SST/Macro creates a set of binary files in the installation directory. Add the directory to the PATH variable.
    > export PATH=<PATH_TO_INSTALL_DIRECTORY>/bin:$PATH
